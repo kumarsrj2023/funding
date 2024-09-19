@@ -65,6 +65,13 @@
             </a>
         </li>
         <li class="nav-item">
+            <a href="{{ !empty($id) ? route('businesses.committeepaper', $id) : 'javascript:void(0)' }}"
+                aria-expanded="{{ request()->route()->getName() == 'businesses.committeepaper' ? 'true' : 'false' }}"
+                class="nav-link {{ request()->route()->getName() == 'businesses.committeepaper' ? 'active' : '' }}">
+                Committee Paper
+            </a>
+        </li>
+        <li class="nav-item">
             <a type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#sopModel" id="openModalBtn">
                 Send SOP
             </a>

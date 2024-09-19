@@ -891,7 +891,7 @@ class BusinessController extends Controller
     }
 
     // by suraj
-    public function sopPriceModel(Request $request, $id)
+    public function priceModel(Request $request, $id)
     {
         if (strtoupper(request()->method()) !== 'GET' && strtoupper(request()->method()) !== 'POST') {
             return redirect()->back()->withInput()->with('error_message', 'Invalid operation.');
@@ -908,6 +908,24 @@ class BusinessController extends Controller
         }
         
         return view('sop.sop-price-model')->with(compact('id'));
+    }
+    public function committeePaper(Request $request, $id)
+    {
+        if (strtoupper(request()->method()) !== 'GET' && strtoupper(request()->method()) !== 'POST') {
+            return redirect()->back()->withInput()->with('error_message', 'Invalid operation.');
+        }
+
+        if (empty($id)) {
+            return redirect()->route('home');
+        }
+
+        $business_info = BusinessInfo::where('id', $id)->first();
+
+        if (empty($business_info)) {
+            return redirect()->route('home');
+        }
+        
+        return view('businesses.committee-paper')->with(compact('id'));
     }
 
     public function migratefile()

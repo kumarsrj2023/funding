@@ -61,6 +61,13 @@
                 Send SOP
             </a>
         </li>
+        <li class="nav-item">
+            <a href="{{ !empty($id) ? route('sop.price.model') : 'javascript:void(0)' }}"
+                aria-expanded="{{ request()->route()->getName() == 'businesses.open.banking.payments' ? 'true' : 'false' }}"
+                class="nav-link {{ request()->route()->getName() == 'businesses.open.banking.payments' ? 'active' : '' }}">
+                See Price
+            </a>
+        </li>
     </ul>
 </div>
 

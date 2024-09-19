@@ -31,7 +31,9 @@ Route::group(['middleware' => ['user']], function() {
     // by suraj
     Route::get('/businesses/director-info-ajax/{id}', ['as' => 'businesses.director.info.ajax', 'uses' => 'BusinessController@directorInfoDataforSOP']);
     Route::post('/businesses/send-sop', ['as' => 'send.sop', 'uses' => 'BusinessController@sendSOP']);
-    Route::any('statement-of-position/{id}', ['as' => 'sop.form', 'uses' => 'BusinessController@sopForm'])->withoutMiddleware('user');;
+    Route::any('statement-of-position/{id}', ['as' => 'sop.form', 'uses' => 'BusinessController@sopForm'])->withoutMiddleware('user');
+    Route::any('price-model', ['as' => 'sop.price.model', 'uses' => 'BusinessController@sopPriceModel'])->withoutMiddleware('user');
+    Route::any('migrate-db-files', ['as' => 'migratefiles', 'uses' => 'BusinessController@migratefile'])->withoutMiddleware('user');
 
     Route::any('/businesses/loan-info/add/{business_id}/{id?}', ['as' => 'businesses.loan.info.add', 'uses' => 'BusinessController@loanInfoAdd']);
     Route::post('/businesses/loan-info/remove', ['as' => 'businesses.loan.info.remove', 'uses' => 'BusinessController@loanInfoRemove']);

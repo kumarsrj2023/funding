@@ -28,6 +28,9 @@ use App\Models\DirectorPropertiesAndOtherAssets;
 use App\Models\DirectorUnlistedShares;
 use Mpdf\Mpdf;
 
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Crypt;
 
@@ -634,7 +637,16 @@ class BusinessController extends Controller
             if ($director->email) {
                 $encryptedId = Crypt::encrypt($director->id);
                 try {
-                    Mail::to($director->email)->send(new SOPNotification($subject, $director, $encryptedId));
+                    // Send email using Mail::send
+                    Mail::send('emails.sop_notification', [
+                        'data' => $director,
+                        'encryptedId' => $encryptedId,
+                        'subject' => $subject,
+                    ], function ($message) use ($director, $subject) {
+                        $message->to($director->email)
+                            ->subject($subject);
+                    });
+
                     $successfulEmails[$director->name] = [
                         'email' => $director->email,
                         'id' => $encryptedId,
@@ -876,6 +888,168 @@ class BusinessController extends Controller
                 return redirect()->back()->with('error_message', 'There was an error saving the data. Please try again.');
             }
         }
+    }
+
+    // by suraj
+    public function sopPriceModel()
+    {
+        return view('sop.sop-price-model');
+    }
+
+    public function migratefile()
+    {
+        // Check if the tables already exist to avoid duplication
+        if (!Schema::hasTable('wp_director_assets')) {
+            Schema::create('wp_director_assets', function (Blueprint $table) {
+                // Primary key
+                $table->bigIncrements('id');
+
+                // Foreign key column
+                $table->bigInteger('wp_director_info_id');
+
+                // Other columns
+                $table->string('account_or_regnumber', 100)->nullable();
+                $table->string('cash_in_bank_and_deposit', 100)->nullable();
+                $table->string('public_listed_shares', 100)->nullable();
+                $table->tinyInteger('properties')->nullable();
+                $table->string('motor_vehicles_boats', 100)->nullable();
+                $table->string('other_cash_investments', 100)->nullable();
+                $table->string('details_of_personal_pension', 100)->nullable();
+                $table->string('other_assets', 100)->nullable();
+
+                $table->foreign('wp_director_info_id', 'wp_director_assets_fk')
+                    ->references('id')
+                    ->on('wp_director_info')
+                    ->onDelete('cascade');
+
+                $table->timestamps();
+            });
+        }
+
+        if (!Schema::hasTable('wp_director_liabilities')) {
+            Schema::create('wp_director_liabilities', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->bigInteger('wp_director_info_id');
+                $table->string('account_or_regnumber', 100)->nullable();
+                $table->string('personal_loans_and_overdrafts', 100)->nullable();
+                $table->string('mortgages', 100)->nullable();
+                $table->string('credit_card_debts', 100)->nullable();
+                $table->string('motor_loan', 100)->nullable();
+                $table->string('property_rental', 100)->nullable();
+                $table->string('other_debt_and_contingent_liabilities', 100)->nullable();
+                $table->string('other_liabilities', 100)->nullable();
+
+                $table->foreign('wp_director_info_id', 'wp_director_liabilities_fk')
+                    ->references('id')
+                    ->on('wp_director_info')
+                    ->onDelete('cascade');
+
+                $table->timestamps();
+            });
+        }
+
+        if (!Schema::hasTable('wp_director_contingent_liabilities')) {
+            Schema::create('wp_director_contingent_liabilities', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->bigInteger('wp_director_info_id');
+                $table->string('creditor', 100)->nullable();
+                $table->string('nature_of_pg', 100)->nullable();
+                $table->string('unlimited_guarantee_or_limit_value', 100)->nullable();
+                $table->foreign('wp_director_info_id', 'wp_director_contingent_lib_fk')
+                    ->references('id')
+                    ->on('wp_director_info')
+                    ->onDelete('cascade');
+                $table->timestamps();
+            });
+        }
+
+        if (!Schema::hasTable('wp_director_household_income')) {
+            Schema::create('wp_director_household_income', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->bigInteger('wp_director_info_id');
+                $table->string('type_and_source', 100)->nullable();
+                $table->string('who_in_household', 100)->nullable();
+                $table->string('gross_annual_income', 100)->nullable();
+                $table->foreign('wp_director_info_id', 'wp_dir_household_income_fk')
+                    ->references('id')
+                    ->on('wp_director_info')
+                    ->onDelete('cascade');
+                $table->timestamps();
+            });
+        }
+
+        // Add more tables following the same pattern
+        if (!Schema::hasTable('wp_director_properties_and_other_assets')) {
+            Schema::create('wp_director_properties_and_other_assets', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->bigInteger('wp_director_info_id');
+                $table->string('property_address_and_assets', 100)->nullable();
+                $table->string('estimated_value', 100)->nullable();
+                $table->string('debt', 100)->nullable();
+                $table->string('financing_costs', 100)->nullable();
+                $table->string('income', 100)->nullable();
+
+                $table->foreign('wp_director_info_id', 'wp_dir_properties_and_other_fk')
+                    ->references('id')
+                    ->on('wp_director_info')
+                    ->onDelete('cascade');
+
+                $table->timestamps();
+            });
+        }
+
+        if (!Schema::hasTable('wp_director_unlisted_shares')) {
+            Schema::create('wp_director_unlisted_shares', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->bigInteger('wp_director_info_id');
+                $table->string('company_name', 100)->nullable();
+                $table->string('reg_number', 100)->nullable();
+                $table->string('status', 20)->nullable();
+                $table->string('registered', 100)->nullable();
+                $table->string('shareholding', 100)->nullable();
+                $table->foreign('wp_director_info_id', 'wp_dir_unlisted_shares')
+                    ->references('id')
+                    ->on('wp_director_info')
+                    ->onDelete('cascade');
+                $table->timestamps();
+            });
+        }
+
+        // Schema for wp_director_info modifications
+        if (Schema::hasTable('wp_director_info')) {
+            Schema::table('wp_director_info', function (Blueprint $table) {
+                if (Schema::hasColumn('wp_director_info', 'phone')) {
+                    $table->renameColumn('phone', 'mobile');
+                }
+
+                if (!Schema::hasColumn('wp_director_info', 'middle_name')) {
+                    $table->text('middle_name')->nullable()->after('first_name');
+                }
+
+                if (!Schema::hasColumn('wp_director_info', 'time_in_curr_address')) {
+                    $table->text('time_in_curr_address')->nullable()->after('wp_business_info_id');
+                }
+
+                if (!Schema::hasColumn('wp_director_info', 'tel_home')) {
+                    $table->string('tel_home', 15)->nullable()->after('wp_business_info_id');
+                }
+
+                if (!Schema::hasColumn('wp_director_info', 'tel_business')) {
+                    $table->string('tel_business', 15)->nullable()->after('wp_business_info_id');
+                }
+
+                if (!Schema::hasColumn('wp_director_info', 'declared_bankrupt')) {
+                    $table->string('declared_bankrupt', 15)->nullable()->after('wp_business_info_id');
+                }
+
+                if (!Schema::hasColumn('wp_director_info', 'signature')) {
+                    $table->string('signature', 100)->nullable()->after('wp_business_info_id');
+                }
+            });
+        }
+
+        // Return a response after migration
+        return response()->json(['status' => 'Migration completed successfully!']);
     }
 
 

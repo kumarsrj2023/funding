@@ -505,7 +505,6 @@ $(document).ready(function () {
                         if (!t.ok) throw new Error(t.statusText);
 
                         if (redirect) {
-                            alert("")
                             location.reload();
                         } else {
                             refreshSOPTable();

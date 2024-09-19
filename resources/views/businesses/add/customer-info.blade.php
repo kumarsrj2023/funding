@@ -472,5 +472,4 @@
 @section('js-lib')
 <script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
 <script src="{{ asset('vendor/datatables/datatables.min.js') }}"></script>
-
 @endsection

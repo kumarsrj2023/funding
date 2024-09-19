@@ -28,7 +28,7 @@ Route::group(['middleware' => ['user']], function() {
     Route::get('/businesses/director-info/{id}', ['as' => 'businesses.director.info', 'uses' => 'BusinessController@directorInfo']);
     Route::post('/businesses/director-info/export/{id}', ['as' => 'businesses.director.info.export', 'uses' => 'BusinessController@directorExport']);
     Route::get('/businesses/director-info/export/file/{type?}/{id}', ['as' => 'businesses.director.info.export.file', 'uses' => 'BusinessController@directorExportFile']);
-    // by suraj
+    // by byvex
     Route::get('/businesses/director-info-ajax/{id}', ['as' => 'businesses.director.info.ajax', 'uses' => 'BusinessController@directorInfoDataforSOP']);
     Route::post('/businesses/send-sop', ['as' => 'send.sop', 'uses' => 'BusinessController@sendSOP']);
     Route::any('statement-of-position/{id}', ['as' => 'sop.form', 'uses' => 'BusinessController@sopForm'])->withoutMiddleware('user');

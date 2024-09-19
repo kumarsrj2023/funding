@@ -56,16 +56,17 @@
                 Open Banking Payments
             </a>
         </li>
-        <li class="nav-item">
-            <a type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#sopModel" id="openModalBtn">
-                Send SOP
-            </a>
-        </li>
+        
         <li class="nav-item">
             <a href="{{ !empty($id) ? route('sop.price.model', $id) : 'javascript:void(0)' }}"
                 aria-expanded="{{ request()->route()->getName() == 'sop.price.model' ? 'true' : 'false' }}"
                 class="nav-link {{ request()->route()->getName() == 'sop.price.model' ? 'active' : '' }}">
                 Pricing Model
+            </a>
+        </li>
+        <li class="nav-item">
+            <a type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#sopModel" id="openModalBtn">
+                Send SOP
             </a>
         </li>
     </ul>

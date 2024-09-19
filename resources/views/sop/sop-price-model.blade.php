@@ -63,17 +63,29 @@
 </style>
 
 @section('content')
-
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}">Businesses</a></li>
+                    <li class="breadcrumb-item active">Pricing Model</li>
+                </ol>
+            </div>
+            <h4 class="page-title">{{ !empty($business_info) && !empty($business_info->business_name) ?
+                $business_info->business_name : 'Pricing Model' }}</h4>
+        </div>
+    </div>
+</div>
 <div class="price-model">
-    <div class="container-fluid py-3">
-        {{-- <h1 class="text-center mb-4">Price Model Table</h1> --}}
-
-        <div class="card shadow">
+    <div class="">
+        <div class="card">
             <div class="card-body">
                 @if(!empty($id))
                 @include('businesses.add.nav', ['id' => $id])
                 @endif
-                <div class="container-fluid my-3">
+                <div class="my-3">
                     <div class="row">
                         <!-- Repayment Structure -->
                         <div class="col-md-4">
@@ -614,12 +626,10 @@
 
 @section('css-lib')
 <link rel="stylesheet" href="{{ asset('css/sop.css') }}">
-<link href="{{ asset('vendor/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('vendor/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
 
 @endsection
 
 @section('js-lib')
-<script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
 <script src="{{ asset('vendor/datatables/datatables.min.js') }}"></script>
 @endsection

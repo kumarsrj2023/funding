@@ -677,10 +677,16 @@
 @endsection
 
 
-
+@section('css-lib')
+<link rel="stylesheet" href="{{ asset('css/sop.css') }}">
+@endsection
 
 @section('page-css')
-<link rel="stylesheet" href="{{ asset('css/sop.css') }}">
+<style>
+    .content-page {
+        margin: 0
+    }
+</style>
 @endsection
 
 @section('js-lib')

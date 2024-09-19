@@ -62,10 +62,10 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ !empty($id) ? route('sop.price.model') : 'javascript:void(0)' }}"
-                aria-expanded="{{ request()->route()->getName() == 'businesses.open.banking.payments' ? 'true' : 'false' }}"
-                class="nav-link {{ request()->route()->getName() == 'businesses.open.banking.payments' ? 'active' : '' }}">
-                See Price
+            <a href="{{ !empty($id) ? route('sop.price.model', $id) : 'javascript:void(0)' }}"
+                aria-expanded="{{ request()->route()->getName() == 'sop.price.model' ? 'true' : 'false' }}"
+                class="nav-link {{ request()->route()->getName() == 'sop.price.model' ? 'active' : '' }}">
+                Pricing Model
             </a>
         </li>
     </ul>

@@ -1,4 +1,4 @@
-@extends('guest')
+@extends('index')
 @section('title', Helper::getSiteTitle('Price Model'))
 <style>
     .price-model .table-header {
@@ -44,6 +44,7 @@
         color: #000;
         background: transparent;
     }
+
     .price-model .highlight-green .repayment-schedule {
         color: #000;
         background: transparent;
@@ -65,10 +66,13 @@
 
 <div class="price-model">
     <div class="container-fluid py-3">
-        <h1 class="text-center mb-4">Price Model Table</h1>
+        {{-- <h1 class="text-center mb-4">Price Model Table</h1> --}}
 
         <div class="card shadow">
-            <div class="card-body p-0">
+            <div class="card-body">
+                @if(!empty($id))
+                @include('businesses.add.nav', ['id' => $id])
+                @endif
                 <div class="container-fluid my-3">
                     <div class="row">
                         <!-- Repayment Structure -->
@@ -267,20 +271,17 @@
                                             <tr>
                                                 <td>% Repayment Under 20%?</td>
                                                 <td class="highlight-green"><input type="text"
-                                                        class="checker-input checker-table-input"
-                                                        value="TRUE" /></td>
+                                                        class="checker-input checker-table-input" value="TRUE" /></td>
                                             </tr>
                                             <tr>
                                                 <td>IRR Post Introducer >130%?</td>
                                                 <td class="highlight-green"><input type="text"
-                                                        class="checker-input checker-table-input"
-                                                        value="TRUE" /></td>
+                                                        class="checker-input checker-table-input" value="TRUE" /></td>
                                             </tr>
                                             <tr>
                                                 <td>Equity Covers Lend?</td>
                                                 <td class="highlight-green"><input type="text"
-                                                        class="checker-input checker-table-input"
-                                                        value="TRUE" /></td>
+                                                        class="checker-input checker-table-input" value="TRUE" /></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -305,48 +306,66 @@
                                             </tr>
                                             <tr>
                                                 <td>1.20x</td>
-                                                <td><input type="text" class="commission-input commission-table-input" value="3.00%" /></td>
-                                                <td><input type="text" class="commission-input commission-table-input" value="15.00%" /></td>
+                                                <td><input type="text" class="commission-input commission-table-input"
+                                                        value="3.00%" /></td>
+                                                <td><input type="text" class="commission-input commission-table-input"
+                                                        value="15.00%" /></td>
                                             </tr>
                                             <tr>
                                                 <td>1.25x</td>
-                                                <td><input type="text" class="commission-input commission-table-input" value="3.50%" /></td>
-                                                <td><input type="text" class="commission-input commission-table-input" value="14.00%" /></td>
+                                                <td><input type="text" class="commission-input commission-table-input"
+                                                        value="3.50%" /></td>
+                                                <td><input type="text" class="commission-input commission-table-input"
+                                                        value="14.00%" /></td>
                                             </tr>
                                             <tr>
                                                 <td>1.30x</td>
-                                                <td><input type="text" class="commission-input commission-table-input" value="4.50%" /></td>
-                                                <td><input type="text" class="commission-input commission-table-input" value="15.00%" /></td>
+                                                <td><input type="text" class="commission-input commission-table-input"
+                                                        value="4.50%" /></td>
+                                                <td><input type="text" class="commission-input commission-table-input"
+                                                        value="15.00%" /></td>
                                             </tr>
                                             <tr>
                                                 <td>1.35x</td>
-                                                <td><input type="text" class="commission-input commission-table-input" value="5.50%" /></td>
-                                                <td><input type="text" class="commission-input commission-table-input" value="15.71%" /></td>
+                                                <td><input type="text" class="commission-input commission-table-input"
+                                                        value="5.50%" /></td>
+                                                <td><input type="text" class="commission-input commission-table-input"
+                                                        value="15.71%" /></td>
                                             </tr>
                                             <tr>
                                                 <td>1.40x</td>
-                                                <td><input type="text" class="commission-input commission-table-input" value="6.50%" /></td>
-                                                <td><input type="text" class="commission-input commission-table-input" value="16.25%" /></td>
+                                                <td><input type="text" class="commission-input commission-table-input"
+                                                        value="6.50%" /></td>
+                                                <td><input type="text" class="commission-input commission-table-input"
+                                                        value="16.25%" /></td>
                                             </tr>
                                             <tr>
                                                 <td>1.45x</td>
-                                                <td><input type="text" class="commission-input commission-table-input" value="8.00%" /></td>
-                                                <td><input type="text" class="commission-input commission-table-input" value="17.78%" /></td>
+                                                <td><input type="text" class="commission-input commission-table-input"
+                                                        value="8.00%" /></td>
+                                                <td><input type="text" class="commission-input commission-table-input"
+                                                        value="17.78%" /></td>
                                             </tr>
                                             <tr>
                                                 <td>1.50x</td>
-                                                <td><input type="text" class="commission-input commission-table-input" value="9.50%" /></td>
-                                                <td><input type="text" class="commission-input commission-table-input" value="19.00%" /></td>
+                                                <td><input type="text" class="commission-input commission-table-input"
+                                                        value="9.50%" /></td>
+                                                <td><input type="text" class="commission-input commission-table-input"
+                                                        value="19.00%" /></td>
                                             </tr>
                                             <tr>
                                                 <td>1.55x</td>
-                                                <td><input type="text" class="commission-input commission-table-input" value="11.50%" /></td>
-                                                <td><input type="text" class="commission-input commission-table-input" value="20.91%" /></td>
+                                                <td><input type="text" class="commission-input commission-table-input"
+                                                        value="11.50%" /></td>
+                                                <td><input type="text" class="commission-input commission-table-input"
+                                                        value="20.91%" /></td>
                                             </tr>
                                             <tr>
                                                 <td>1.60x</td>
-                                                <td><input type="text" class="commission-input commission-table-input" value="13.00%" /></td>
-                                                <td><input type="text" class="commission-input commission-table-input" value="21.67%" /></td>
+                                                <td><input type="text" class="commission-input commission-table-input"
+                                                        value="13.00%" /></td>
+                                                <td><input type="text" class="commission-input commission-table-input"
+                                                        value="21.67%" /></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -365,43 +384,75 @@
                                         <tbody>
                                             <tr>
                                                 <td>Number of periods</td>
-                                                <td><input type="text" class="repayment-schedule repayment-schedule-input" value="18" /></td>
-                                                <td><input type="text" class="repayment-schedule repayment-schedule-input" value="87" /></td>
+                                                <td><input type="text"
+                                                        class="repayment-schedule repayment-schedule-input"
+                                                        value="18" /></td>
+                                                <td><input type="text"
+                                                        class="repayment-schedule repayment-schedule-input"
+                                                        value="87" /></td>
                                             </tr>
                                             <tr>
                                                 <td>Repayment</td>
-                                                <td><input type="text" class="repayment-schedule repayment-schedule-input" value="8.58%" /></td>
-                                                <td><input type="text" class="repayment-schedule repayment-schedule-input" value="1.78%" /></td>
+                                                <td><input type="text"
+                                                        class="repayment-schedule repayment-schedule-input"
+                                                        value="8.58%" /></td>
+                                                <td><input type="text"
+                                                        class="repayment-schedule repayment-schedule-input"
+                                                        value="1.78%" /></td>
                                             </tr>
                                             <tr>
                                                 <td>Total Repaid</td>
-                                                <td><input type="text" class="repayment-schedule repayment-schedule-input" value="154.50%" /></td>
-                                                <td><input type="text" class="repayment-schedule repayment-schedule-input" value="154.50%" /></td>
+                                                <td><input type="text"
+                                                        class="repayment-schedule repayment-schedule-input"
+                                                        value="154.50%" /></td>
+                                                <td><input type="text"
+                                                        class="repayment-schedule repayment-schedule-input"
+                                                        value="154.50%" /></td>
                                             </tr>
                                             <tr>
                                                 <td>Total Paid</td>
-                                                <td><input type="text" class="repayment-schedule repayment-schedule-input" value="100.00%" /></td>
-                                                <td><input type="text" class="repayment-schedule repayment-schedule-input" value="100.00%" /></td>
+                                                <td><input type="text"
+                                                        class="repayment-schedule repayment-schedule-input"
+                                                        value="100.00%" /></td>
+                                                <td><input type="text"
+                                                        class="repayment-schedule repayment-schedule-input"
+                                                        value="100.00%" /></td>
                                             </tr>
                                             <tr>
                                                 <td>Period Deal IRR</td>
-                                                <td><input type="text" class="repayment-schedule repayment-schedule-input" value="5.04%" /></td>
-                                                <td><input type="text" class="repayment-schedule repayment-schedule-input" value="1.08%" /></td>
+                                                <td><input type="text"
+                                                        class="repayment-schedule repayment-schedule-input"
+                                                        value="5.04%" /></td>
+                                                <td><input type="text"
+                                                        class="repayment-schedule repayment-schedule-input"
+                                                        value="1.08%" /></td>
                                             </tr>
                                             <tr>
                                                 <td>Pre-Introducer IRR</td>
-                                                <td class="highlight-green"><input type="text" class="repayment-schedule repayment-schedule-input" value="262.23%" /></td>
-                                                <td class="highlight-green"><input type="text" class="repayment-schedule repayment-schedule-input" value="279.74%" /></td>
+                                                <td class="highlight-green"><input type="text"
+                                                        class="repayment-schedule repayment-schedule-input"
+                                                        value="262.23%" /></td>
+                                                <td class="highlight-green"><input type="text"
+                                                        class="repayment-schedule repayment-schedule-input"
+                                                        value="279.74%" /></td>
                                             </tr>
                                             <tr>
                                                 <td>Period FAG IRR</td>
-                                                <td><input type="text" class="repayment-schedule repayment-schedule-input" value="3.85%" /></td>
-                                                <td><input type="text" class="repayment-schedule repayment-schedule-input" value="0.82%" /></td>
+                                                <td><input type="text"
+                                                        class="repayment-schedule repayment-schedule-input"
+                                                        value="3.85%" /></td>
+                                                <td><input type="text"
+                                                        class="repayment-schedule repayment-schedule-input"
+                                                        value="0.82%" /></td>
                                             </tr>
                                             <tr>
                                                 <td>Post-Introducer IRR</td>
-                                                <td class="highlight-green"><input type="text" class="repayment-schedule repayment-schedule-input" value="200.18%" /></td>
-                                                <td class="highlight-green"><input type="text" class="repayment-schedule repayment-schedule-input" value="214.10%" /></td>
+                                                <td class="highlight-green"><input type="text"
+                                                        class="repayment-schedule repayment-schedule-input"
+                                                        value="200.18%" /></td>
+                                                <td class="highlight-green"><input type="text"
+                                                        class="repayment-schedule repayment-schedule-input"
+                                                        value="214.10%" /></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -438,63 +489,108 @@
                                     <tbody>
                                         <tr>
                                             <th class="highlight-row">Daily Repayment</th>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£145.41" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£151.47" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£157.53" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£163.59" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£169.65" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£175.71" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£181.76" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£187.82" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£193.88" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£145.41" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£151.47" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£157.53" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£163.59" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£169.65" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£175.71" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£181.76" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£187.82" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£193.88" /></td>
                                         </tr>
                                         <tr>
                                             <th class="highlight-row">Weekly Repayment</th>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£727.06" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£757.35" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£787.65" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£817.94" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£848.24" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£878.53" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£908.82" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£939.12" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£969.41" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£727.06" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£757.35" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£787.65" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£817.94" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£848.24" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£878.53" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£908.82" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£939.12" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£969.41" /></td>
                                         </tr>
                                         <tr>
                                             <th class="highlight-row">Total Repayment</th>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£12,360.00" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£12,875.00" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£13,390.00" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£13,905.00" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£14,420.00" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£14,935.00" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£15,450.00" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£15,965.00" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£16,480.00" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£12,360.00" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£12,875.00" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£13,390.00" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£13,905.00" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£14,420.00" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£14,935.00" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£15,450.00" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£15,965.00" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£16,480.00" /></td>
                                         </tr>
                                         <tr>
                                             <th class="highlight-row">Introducer Commission</th>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£300.00" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£350.00" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£450.00" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£550.00" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£650.00" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£800.00" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£950.00" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£1,150.00" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="£1,300.00" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£300.00" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£350.00" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£450.00" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£550.00" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£650.00" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£800.00" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£950.00" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£1,150.00" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="£1,300.00" /></td>
                                         </tr>
                                         <tr>
                                             <th class="highlight-row">Introducer Fee (%) of Advance</th>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="3.00%" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="3.50%" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="4.50%" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="5.50%" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="6.50%" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="8.00%" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="9.50%" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="11.50%" /></td>
-                                            <td><input type="text" class="repayment-input commission-table-input" value="13.00%" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="3.00%" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="3.50%" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="4.50%" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="5.50%" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="6.50%" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="8.00%" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="9.50%" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="11.50%" /></td>
+                                            <td><input type="text" class="repayment-input commission-table-input"
+                                                    value="13.00%" /></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -512,7 +608,18 @@
 
 @endsection
 
+@section('meta')
+<meta name="class-to-open" content="Price-model">
+@endsection
 
-@section('page-css')
+@section('css-lib')
 <link rel="stylesheet" href="{{ asset('css/sop.css') }}">
+<link href="{{ asset('vendor/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('vendor/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
+
+@endsection
+
+@section('js-lib')
+<script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
+<script src="{{ asset('vendor/datatables/datatables.min.js') }}"></script>
 @endsection

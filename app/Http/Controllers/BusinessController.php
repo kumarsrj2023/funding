@@ -978,7 +978,6 @@ class BusinessController extends Controller
             });
         }
 
-        // Add more tables following the same pattern
         if (!Schema::hasTable('wp_director_properties_and_other_assets')) {
             Schema::create('wp_director_properties_and_other_assets', function (Blueprint $table) {
                 $table->bigIncrements('id');

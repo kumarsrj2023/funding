@@ -495,8 +495,11 @@
 
 @section('css-lib')
 <link href="{{ asset('vendor/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('vendor/datatables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
+
 @endsection
 
 @section('js-lib')
 <script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
+<script src="{{ asset('vendor/datatables/datatables.min.js') }}"></script>
 @endsection

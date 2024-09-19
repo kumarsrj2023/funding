@@ -1,5 +1,6 @@
 @extends('index')
 @section('title', Helper::getSiteTitle('Price Model'))
+@section('page-css')
 <style>
     .price-model .table-header {
         background-color: #5a5a5a;
@@ -61,6 +62,7 @@
         color: #000;
     }
 </style>
+@endsection
 
 @section('content')
 <div class="row">

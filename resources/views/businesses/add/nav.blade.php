@@ -71,4 +71,4 @@
     </ul>
 </div>
 
-@include('businesses.add.director-info.sop')
+@include('sop.modals')

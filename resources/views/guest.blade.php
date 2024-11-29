@@ -17,6 +17,7 @@
     </head>
     <body>
         <div class="wrapper">
+            @include('includes.guest-topbar')
             <div class="content-page">
                 <div class="content mb-3">
                     @yield('content')

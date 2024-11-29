@@ -4,7 +4,14 @@
 
 @section('content')
 
-<div class="container">
+<div class="container sop" id="sop" x-data="sop(
+    {saveAIPData: '',currentUrl: '{{ URL::current() }}',sopPdf: '{{ route('download.sop', $id) }}'},
+    { 
+        assetInfo: {{ json_encode($assetInfo, JSON_HEX_APOS) }},
+        liabilitiesInfo: {{ json_encode($liabilitiesInfo, JSON_HEX_APOS) }},
+        directorInfo: {{ json_encode($directorInfo, JSON_HEX_APOS) }}
+    }
+    )">
     <div class="response mt-3">
         @if ($errors->any())
         <div class="alert alert-danger">
@@ -22,17 +29,14 @@
         </div>
         @endif
     </div>
-
+    <div x-show="loadingStates.saveData || loadingStates.exportPDF">
+        <x-loader />
+    </div>
 
     <form id="sopForm" action="{{ URL::current() }}" method="post" enctype="multipart/form-data">
         @csrf
         <div id="content" class="" style="position: relative;">
-            {{-- <div class="d-flex justify-content-center align-items-center position-fixed"
-                style="top:0;left:0;right:0;bottom:0;z-index: 999;">
-                <img src="<?= get_stylesheet_directory_uri(); ?>/assets/image/spinner.gif" alt="" width="60">
-            </div> --}}
-
-            <div class="container mb-1">
+            <div class="mb-1">
                 <p class="header-desc">ALL INFORMATION IS HELD IN STRICTEST CONFIDENCE IN ACCORDANCE WITH OUR General
                     Data
                     Protection Regulation (GDPR) POLICY.</p>
@@ -44,51 +48,86 @@
                         <input type="text"
                             class="{{ $index }}_business_name {{ $errors->has($index . '_business_name') ? 'is-invalid' : '' }}"
                             name="{{ $index }}_business_name"
-                            value="{{ old($index . '_business_name', $businessInfo->business_name ?? '') }}">
+                            value="{{ old($index . '_business_name', $businessInfo->business_name ?? '') }}" readonly>
                     </div>
                 </div>
             </div>
 
             <!-- Name and other details -->
-            <div class="name-and-other-details container mb-1">
+            <div class="name-and-other-details  mb-1">
                 <h2>Name and Other Details of Proposed Guarantor</h2>
                 @php $index = 'proposed_guarantor_details'; @endphp
                 <table class="table_{{ $index }}">
                     <tr>
                         <td class="td-label width-60">Title</td>
                         <td class="td-value">
-                            <input type="text" name="{{ $index }}_title"
-                                value="{{ old($index . '_title', $directorInfo->title ?? '') }}">
+                            <input type="text" name="{{ $index }}_title" x-model="directorInfo.title">
                         </td>
                         <td class="td-label width-110">First Name</td>
                         <td class="td-value">
                             <input type="text"
                                 class="{{ $index }}_first_name {{ $errors->has($index . '_first_name') ? 'is-invalid' : '' }}"
-                                name="{{ $index }}_first_name"
-                                value="{{ old($index . '_first_name', $directorInfo->first_name ?? '') }}">
+                                name="{{ $index }}_first_name" x-model="directorInfo.first_name">
                         </td>
                         <td class="td-label width-110">Middle Name</td>
                         <td class="td-value">
                             <input type="text"
                                 class="{{ $index }}_middle_name {{ $errors->has($index . '_middle_name') ? 'is-invalid' : '' }}"
-                                name="{{ $index }}_middle_name"
-                                value="{{ old($index . '_middle_name', $directorInfo->middle_name ?? '') }}">
+                                name="{{ $index }}_middle_name" x-model="directorInfo.middle_name">
                         </td>
                         <td class="td-label width-110">Last Name</td>
                         <td class="td-value">
                             <input type="text"
                                 class="{{ $index }}_surname {{ $errors->has($index . '_surname') ? 'is-invalid' : '' }}"
-                                name="{{ $index }}_surname"
-                                value="{{ old($index . '_surname', $directorInfo->surname ?? '') }}">
+                                name="{{ $index }}_surname" x-model="directorInfo.surname">
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="3" class="td-label width-110">Full Street Address</td>
+                        <td colspan="100%" class="td-label">Home Address</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="td-label width-110">House/Flat No.</td>
                         <td class="td-value" colspan="5">
                             <input type="text"
-                                class="{{ $index }}_address_simple_value {{ $errors->has($index . '_address_simple_value') ? 'is-invalid' : '' }}"
-                                name="{{ $index }}_address_simple_value"
-                                value="{{ old($index . '_address_simple_value', $directorInfo->address_simple_value ?? '') }}">
+                                class="{{ $index }}_house_number {{ $errors->has($index . '_house_number') ? 'is-invalid' : '' }}"
+                                name="{{ $index }}_house_number"
+                                value="{{ old($index . '_house_number', $directorInfo->house_number ?? '') }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="td-label width-110">Address Line 1</td>
+                        <td class="td-value" colspan="5">
+                            <input type="text"
+                                class="{{ $index }}_address_line_1 {{ $errors->has($index . '_address_line_1') ? 'is-invalid' : '' }}"
+                                name="{{ $index }}_address_line_1"
+                                value="{{ old($index . '_address_line_1', $directorInfo->address_line_1 ?? '') }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="td-label width-110">Address Line 2</td>
+                        <td class="td-value" colspan="5">
+                            <input type="text"
+                                class="{{ $index }}_address_line_2 {{ $errors->has($index . '_address_line_2') ? 'is-invalid' : '' }}"
+                                name="{{ $index }}_address_line_2"
+                                value="{{ old($index . '_address_line_2', $directorInfo->address_line_2 ?? '') }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="td-label width-110">Address Line 3</td>
+                        <td class="td-value" colspan="5">
+                            <input type="text"
+                                class="{{ $index }}_address_line_3 {{ $errors->has($index . '_address_line_3') ? 'is-invalid' : '' }}"
+                                name="{{ $index }}_address_line_3"
+                                value="{{ old($index . '_address_line_3', $directorInfo->address_line_3 ?? '') }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="td-label width-110">Postal Code</td>
+                        <td class="td-value" colspan="5">
+                            <input type="text"
+                                class="{{ $index }}_address_postal_code {{ $errors->has($index . '_address_postal_code') ? 'is-invalid' : '' }}"
+                                name="{{ $index }}_address_postal_code"
+                                value="{{ old($index . '_address_postal_code', $directorInfo->address_postal_code ?? '') }}">
                         </td>
                     </tr>
                     <tr>
@@ -142,25 +181,54 @@
 
                     <tr>
                         <td colspan="6" class="td-label width-110">Are You or Have You Ever Been Declared Bankrupt?
-                            (Y/N)
+                            (Yes/No)
                         </td>
                         <td class="td-value" colspan="2">
                             <select
                                 class="w-100 border-0 outline-none {{ $index }}_declared_bankrupt {{ $errors->has($index . '_declared_bankrupt') ? 'is-invalid' : '' }}"
                                 name="{{ $index }}_declared_bankrupt">
                                 <option value="n" {{ old($index . '_declared_bankrupt' , $directorInfo->
-                                    declared_bankrupt ?? '') == 'n' ? 'selected' : '' }}>N</option>
+                                    declared_bankrupt ?? '') == 'n' ? 'selected' : '' }}>No</option>
                                 <option value="y" {{ old($index . '_declared_bankrupt' , $directorInfo->
-                                    declared_bankrupt ?? '') == 'y' ? 'selected' : '' }}>Y</option>
+                                    declared_bankrupt ?? '') == 'y' ? 'selected' : '' }}>Yes</option>
                             </select>
 
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3" class="td-label width-110">Next of Kin Full Name</td>
+                        <td class="td-value" colspan="5">
+                            <input type="text"
+                                class="{{ $index }}_next_of_kin_full_name {{ $errors->has($index . '_next_of_kin_full_name') ? 'is-invalid' : '' }}"
+                                name="{{ $index }}_next_of_kin_full_name"
+                                value="{{ old($index . '_next_of_kin_full_name', $directorInfo->next_of_kin_full_name ?? '') }}">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3" class="td-label width-110">Next of Kin Mobile Number</td>
+                        <td class="td-value" colspan="5">
+                            <input type="text"
+                                class="{{ $index }}_next_of_kin_mobile_number {{ $errors->has($index . '_next_of_kin_mobile_number') ? 'is-invalid' : '' }}"
+                                name="{{ $index }}_next_of_kin_mobile_number"
+                                value="{{ old($index . '_next_of_kin_mobile_number', $directorInfo->next_of_kin_mobile_number ?? '') }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="td-label width-110">Next of Kin Email Address</td>
+                        <td class="td-value" colspan="5">
+                            <input type="text"
+                                class="{{ $index }}_next_of_kin_email_address {{ $errors->has($index . '_next_of_kin_email_address') ? 'is-invalid' : '' }}"
+                                name="{{ $index }}_next_of_kin_email_address"
+                                value="{{ old($index . '_next_of_kin_email_address', $directorInfo->next_of_kin_email_address ?? '') }}">
                         </td>
                     </tr>
                 </table>
             </div>
 
             <!-- Assets Liabilities -->
-            <div class="assets-liabilities border-0 container">
+            <div class="assets-liabilities border-0 ">
                 <h2>Assets and Liabilities</h2>
 
                 <div class="content">
@@ -188,7 +256,7 @@
             </div>
 
             <!-- Assets and Liabilities Details -->
-            <div class="assets-details mb-1 container">
+            <div class="assets-details">
                 @php
                 $assets = 'assets';
                 $liabilities = 'liabilities';
@@ -211,19 +279,16 @@
                                 Where appropriate please provide account/registration numbers
                             </th>
                             <td colspan="2" class="body-t-value">
-                                <input type="text"
-                                    class="{{ $assets }}_account_or_regnumber {{ $errors->has($assets . '_account_or_regnumber') ? 'is-invalid' : '' }}"
-                                    name="{{ $assets }}_account_or_regnumber"
-                                    value="{{ old($assets . '_account_or_regnumber', $assetInfo->account_or_regnumber ?? '') }}">
+                                <input type="text" class="{{ $assets }}_account_or_regnumber"
+                                    name="{{ $assets }}_account_or_regnumber" x-model="assetInfo.account_or_regnumber">
                             </td>
                             <th colspan="2" class="body-t-head">
                                 Where appropriate please provide account/registration numbers
                             </th>
                             <td colspan="2" class="body-t-value">
-                                <input type="text"
-                                    class="{{ $liabilities }}_account_or_regnumber {{ $errors->has($liabilities . '_account_or_regnumber') ? 'is-invalid' : '' }}"
+                                <input type="text" class="{{ $liabilities }}_account_or_regnumber"
                                     name="{{ $liabilities }}_account_or_regnumber"
-                                    value="{{ old($liabilities . '_account_or_regnumber', $liabilitiesInfo->account_or_regnumber ?? '') }}">
+                                    x-model="liabilitiesInfo.account_or_regnumber">
                             </td>
                         </tr>
                         <tr>
@@ -231,19 +296,18 @@
                                 Cash in Bank & Deposit (£)
                             </td>
                             <td colspan="2" class="td-value">
-                                <input type="text"
-                                    class="{{ $assets }}_cash_in_bank_and_deposit {{ $errors->has($assets . '_cash_in_bank_and_deposit') ? 'is-invalid' : '' }}"
+                                <input type="text" class="{{ $assets }}_cash_in_bank_and_deposit {{ $assets }}"
                                     name="{{ $assets }}_cash_in_bank_and_deposit"
-                                    value="{{ old($assets . '_cash_in_bank_and_deposit', $assetInfo->cash_in_bank_and_deposit ?? '') }}">
+                                    x-model="assetInfo.cash_in_bank_and_deposit">
                             </td>
                             <td colspan="2" class="td-label">
                                 Personal Loans & Overdrafts
                             </td>
                             <td colspan="2" class="td-value">
                                 <input type="text"
-                                    class="{{ $liabilities }}_personal_loans_and_overdrafts {{ $errors->has($liabilities . '_personal_loans_and_overdrafts') ? 'is-invalid' : '' }}"
+                                    class="{{ $liabilities }}_personal_loans_and_overdrafts {{ $errors->has($liabilities . '_personal_loans_and_overdrafts') ? 'is-invalid' : '' }} {{ $liabilities }}"
                                     name="{{ $liabilities }}_personal_loans_and_overdrafts"
-                                    value="{{ old($liabilities . '_personal_loans_and_overdrafts', $liabilitiesInfo->personal_loans_and_overdrafts ?? '') }}">
+                                    x-model="liabilitiesInfo.personal_loans_and_overdrafts">
                             </td>
                         </tr>
                         <tr>
@@ -251,43 +315,35 @@
                                 Publicly Listed Shares
                             </td>
                             <td colspan="2" class="td-value">
-                                <input type="text"
-                                    class="{{ $assets }}_public_listed_shares {{ $errors->has($assets . '_public_listed_shares') ? 'is-invalid' : '' }}"
-                                    name="{{ $assets }}_public_listed_shares"
-                                    value="{{ old($assets . '_public_listed_shares', $assetInfo->public_listed_shares ?? '') }}">
+                                <input type="text" class="{{ $assets }}_public_listed_shares {{ $assets }}"
+                                    name="{{ $assets }}_public_listed_shares" x-model="assetInfo.public_listed_shares">
                             </td>
                             <td colspan="2" class="td-label">
                                 Mortgages
                             </td>
                             <td colspan="2" class="td-value">
-                                <input type="text"
-                                    class="{{ $liabilities }}_mortgages {{ $errors->has($liabilities . '_mortgages') ? 'is-invalid' : '' }}"
-                                    name="{{ $liabilities }}_mortgages"
-                                    value="{{ old($liabilities . '_mortgages', $liabilitiesInfo->mortgages ?? '') }}">
+                                <input type="text" class="{{ $liabilities }}_mortgages {{ $liabilities }}"
+                                    name="{{ $liabilities }}_mortgages" x-model="liabilitiesInfo.mortgages">
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2" class="td-label">
-                                Properties Y/N (See below)
+                                Properties Yes/No (See below)
                             </td>
                             <td colspan="2" class="td-value">
-                                <select
-                                    class="w-100 border-0 outline-none {{ $assets }}_properties {{ $errors->has($assets . '_properties') ? 'is-invalid' : '' }}"
-                                    name="{{ $assets }}_properties">
-                                    <option value="0" {{ old($assets . '_properties' , $assetInfo->
-                                        properties ?? '') == 0 ? 'selected' : '' }}>N</option>
-                                    <option value="1" {{ old($assets . '_properties' , $assetInfo->
-                                        properties ?? '') == 1 ? 'selected' : '' }}>Y</option>
+                                <select class="w-100 border-0 outline-none {{ $assets }}_properties"
+                                    name="{{ $assets }}_properties" x-model="assetInfo.properties">
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
                                 </select>
                             </td>
                             <td colspan="2" class="td-label">
                                 Credit Card Debts
                             </td>
                             <td colspan="2" class="td-value">
-                                <input type="text"
-                                    class="{{ $liabilities }}_credit_card_debts {{ $errors->has($liabilities . '_credit_card_debts') ? 'is-invalid' : '' }}"
+                                <input type="text" class="{{ $liabilities }}_credit_card_debts {{ $liabilities }}"
                                     name="{{ $liabilities }}_credit_card_debts"
-                                    value="{{ old($liabilities . '_credit_card_debts', $liabilitiesInfo->credit_card_debts ?? '') }}">
+                                    x-model="liabilitiesInfo.credit_card_debts">
                             </td>
                         </tr>
                         <tr>
@@ -295,19 +351,15 @@
                                 Motor Vehicles & Boats
                             </td>
                             <td colspan="2" class="td-value">
-                                <input type="text"
-                                    class="{{ $assets }}_motor_vehicles_boats {{ $errors->has($assets . '_motor_vehicles_boats') ? 'is-invalid' : '' }}"
-                                    name="{{ $assets }}_motor_vehicles_boats"
-                                    value="{{ old($assets . '_motor_vehicles_boats', $assetInfo->motor_vehicles_boats ?? '') }}">
+                                <input type="text" class="{{ $assets }}_motor_vehicles_boats {{ $assets }}"
+                                    name="{{ $assets }}_motor_vehicles_boats" x-model="assetInfo.motor_vehicles_boats">
                             </td>
                             <td colspan="2" class="td-label">
                                 Motor Loan
                             </td>
                             <td colspan="2" class="td-value">
-                                <input type="text"
-                                    class="{{ $liabilities }}_motor_loan {{ $errors->has($liabilities . '_motor_loan') ? 'is-invalid' : '' }}"
-                                    name="{{ $liabilities }}_motor_loan"
-                                    value="{{ old($liabilities . '_motor_loan', $liabilitiesInfo->motor_loan ?? '') }}">
+                                <input type="text" class="{{ $liabilities }}_motor_loan {{ $liabilities }}"
+                                    name="{{ $liabilities }}_motor_loan" x-model="liabilitiesInfo.motor_loan">
                             </td>
                         </tr>
                         <tr>
@@ -315,19 +367,16 @@
                                 Other Cash Investments
                             </td>
                             <td colspan="2" class="td-value">
-                                <input type="text"
-                                    class="{{ $assets }}_other_cash_investments {{ $errors->has($assets . '_other_cash_investments') ? 'is-invalid' : '' }}"
+                                <input type="text" class="{{ $assets }}_other_cash_investments {{ $assets }}"
                                     name="{{ $assets }}_other_cash_investments"
-                                    value="{{ old($assets . '_other_cash_investments', $assetInfo->other_cash_investments ?? '') }}">
+                                    x-model="assetInfo.other_cash_investments">
                             </td>
                             <td colspan="2" class="td-label">
                                 Property Rental
                             </td>
                             <td colspan="2" class="td-value">
-                                <input type="text"
-                                    class="{{ $liabilities }}_property_rental {{ $errors->has($liabilities . '_property_rental') ? 'is-invalid' : '' }}"
-                                    name="{{ $liabilities }}_property_rental"
-                                    value="{{ old($liabilities . '_property_rental', $liabilitiesInfo->property_rental ?? '') }}">
+                                <input type="text" class="{{ $liabilities }}_property_rental {{ $liabilities }}"
+                                    name="{{ $liabilities }}_property_rental" x-model="liabilitiesInfo.property_rental">
                             </td>
                         </tr>
                         <tr>
@@ -335,19 +384,18 @@
                                 Details of Personal Pension
                             </td>
                             <td colspan="2" class="td-value">
-                                <input type="text"
-                                    class="{{ $assets }}_details_of_personal_pension {{ $errors->has($assets . '_details_of_personal_pension') ? 'is-invalid' : '' }}"
+                                <input type="text" class="{{ $assets }}_details_of_personal_pension {{ $assets }}"
                                     name="{{ $assets }}_details_of_personal_pension"
-                                    value="{{ old($assets . '_details_of_personal_pension', $assetInfo->details_of_personal_pension ?? '') }}">
+                                    x-model="assetInfo.details_of_personal_pension">
                             </td>
                             <td colspan="2" class="td-label">
                                 Other Debts & Contingent Liabilities
                             </td>
                             <td colspan="2" class="td-value">
                                 <input type="text"
-                                    class="{{ $liabilities }}_other_debt_and_contingent_liabilities {{ $errors->has($liabilities . '_other_debt_and_contingent_liabilities') ? 'is-invalid' : '' }}"
+                                    class="{{ $liabilities }}_other_debt_and_contingent_liabilities {{ $liabilities }}"
                                     name="{{ $liabilities }}_other_debt_and_contingent_liabilities"
-                                    value="{{ old($liabilities . '_other_debt_and_contingent_liabilities', $liabilitiesInfo->other_debt_and_contingent_liabilities ?? '') }}">
+                                    x-model="liabilitiesInfo.other_debt_and_contingent_liabilities">
                             </td>
                         </tr>
                         <tr>
@@ -355,45 +403,58 @@
                                 Any other assets (please specify)
                             </td>
                             <td colspan="2" class="td-value">
-                                <input type="text"
-                                    class="{{ $assets }}_other_assets {{ $errors->has($assets . '_other_assets') ? 'is-invalid' : '' }}"
-                                    name="{{ $assets }}_other_assets"
-                                    value="{{ old($assets . '_other_assets', $assetInfo->other_assets ?? '') }}">
+                                <input type="text" class="{{ $assets }}_other_assets {{ $assets }}"
+                                    name="{{ $assets }}_other_assets" x-model="assetInfo.other_assets">
                             </td>
                             <td colspan="2" class="td-label">
                                 Any other liabilities (please specify) recurring or otherwise
                             </td>
                             <td colspan="2" class="td-value">
-                                <input type="text"
-                                    class="{{ $liabilities }}_other_liabilities {{ $errors->has($liabilities . '_other_liabilities') ? 'is-invalid' : '' }}"
+                                <input type="text" class="{{ $liabilities }}_other_liabilities {{ $liabilities }}"
                                     name="{{ $liabilities }}_other_liabilities"
-                                    value="{{ old($liabilities . '_other_liabilities', $liabilitiesInfo->other_liabilities ?? '') }}">
+                                    x-model="liabilitiesInfo.other_liabilities">
                             </td>
                         </tr>
                         <tr>
-                            <th colspan="2" class="td-label">
-                                Total (£)
-                            </th>
-                            <td colspan="2" class="td-value">
-                                <input type="text">
+                            <th colspan="2" class="td-label">Total (£)</th>
+                            <td colspan="2" class="td-footer-value" x-text="$store.funding.formatCurrency(totalAssets)">
                             </td>
-                            <th colspan="2" class="td-label">
-                                Total (£)
-                            </th>
-                            <td colspan="2" class="td-value">
-                                <input type="text">
-                            </td>
+                            <th colspan="2" class="td-label">Total (£)</th>
+                            <td colspan="2" class="td-footer-value"
+                                x-text="$store.funding.formatCurrency(totalLiabilities)"></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
             <!-- Properties and other assets -->
-            <div class="properties-other-assets mb-1 container overflow-auto">
-                <h2 class="table-header">
-                    Properties and other assets with value more than £5,000
-                </h2>
-                <table class="full-width table-collapse">
+            <div x-data="dynamicRow({{ $otherAssets ?? '' }}, [{ property_address_and_assets: '', estimated_value: '', debt: '', financing_costs: '', income: '' }], 'y', {
+                estimated_value: 0,
+                debt: 0,
+                financing_costs: 0,
+                income: 0,
+            })" class="properties-wrapper properties-other-assets overflow-auto">
+                <div class="table-header d-flex justify-content-between align-items-center mb-1">
+                    @php
+                    $index = 'has_properties';
+                    @endphp
+                    <h5>Do you own any properties or other assets with a value greater than £5000?</h5>
+                    <select name="{{ $index }}" x-model="selectInputValue"
+                        class="propertySelect question border-0 outline-none form-select {{ $index }} {{ $errors->has($index) ? 'is-invalid' : '' }}">
+                        <option value="y">Yes</option>
+                        <option value="n">No</option>
+                    </select>
+                </div>
+
+                <div x-show="selectInputValue === 'y'" :class="{'d-flex':selectInputValue === 'y'}"
+                    class="income-header propertyTableHeader justify-content-between align-items-center" x-cloak>
+                    <h2 class="header-text">Properties and other assets with value more than £5,000</h2>
+                    <h6 class="header-text add-row" title="Add row" @click="addRow">
+                        <x-icon-plus />
+                    </h6>
+                </div>
+
+                <table x-show="selectInputValue === 'y'" class="propertyTable full-width table-collapse" x-cloak>
                     <thead>
                         <tr>
                             <th class="header-cell">Property Address(es) and Assets</th>
@@ -403,44 +464,82 @@
                             <th class="header-cell">Income (if any) (£)</th>
                         </tr>
                     </thead>
-
                     <tbody>
-
-                        <?php for ($i = 0; $i < 5; $i++) { ?>
+                        <template x-for="(row, index) in rows" :key="row.key">
+                            <tr>
+                                <td class="table-cell">
+                                    <input type="text" :name="`otherAssets[${index}][property_address_and_assets]`"
+                                        x-model="row.property_address_and_assets">
+                                </td>
+                                <td class="table-cell">
+                                    <input type="text" :name="`otherAssets[${index}][estimated_value]`"
+                                        x-model="row.estimated_value" @input="updateTotals()"
+                                        @focus="$el.value = $store.funding.stripCurrency($el.value)"
+                                        @blur="$el.value = $store.funding.formatCurrency($el.value)">
+                                </td>
+                                <td class="table-cell">
+                                    <input type="text" :name="`otherAssets[${index}][debt]`" x-model="row.debt"
+                                        @input="updateTotals()"
+                                        @focus="$el.value = $store.funding.stripCurrency($el.value)"
+                                        @blur="$el.value = $store.funding.formatCurrency($el.value)">
+                                </td>
+                                <td class="table-cell">
+                                    <input type="text" :name="`otherAssets[${index}][financing_costs]`"
+                                        x-model="row.financing_costs" @input="updateTotals()"
+                                        @focus="$el.value = $store.funding.stripCurrency($el.value)"
+                                        @blur="$el.value = $store.funding.formatCurrency($el.value)">
+                                </td>
+                                <td class="table-cell position-relative">
+                                    <input type="text" :name="`otherAssets[${index}][income]`" x-model="row.income"
+                                        @input="updateTotals()"
+                                        @focus="$el.value = $store.funding.stripCurrency($el.value)"
+                                        @blur="$el.value = $store.funding.formatCurrency($el.value)">
+                                    <span class="delete-row" title="Remove row" @click="removeRow(index)">
+                                        <x-icon-minus />
+                                    </span>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                    <tbody>
                         <tr>
-                            <td class="table-cell">
-                                <input type="text" name="otherAssets[<?php echo $i; ?>][property_address_and_assets]"
-                                    value="{{ old('otherAssets.' . $i . '.property_address_and_assets', $otherAssets[$i]->property_address_and_assets ?? '') }}">
+                            <td class="td-label">Total (£)</td>
+                            <td class="td-footer-value" x-text="$store.funding.formatCurrency(totals.estimated_value)">
                             </td>
-                            <td class="table-cell">
-                                <input type="text" name="otherAssets[<?php echo $i; ?>][estimated_value]"
-                                    value="{{ old('otherAssets.' . $i . '.estimated_value', $otherAssets[$i]->estimated_value ?? '') }}">
+                            <td class="td-footer-value" x-text="$store.funding.formatCurrency(totals.debt)"></td>
+                            <td class="td-footer-value" x-text="$store.funding.formatCurrency(totals.financing_costs)">
                             </td>
-                            <td class="table-cell">
-                                <input type="text" name="otherAssets[<?php echo $i; ?>][debt]"
-                                    value="{{ old('otherAssets.' . $i . '.debt', $otherAssets[$i]->debt ?? '') }}">
-                            </td>
-                            <td class="table-cell">
-                                <input type="text" name="otherAssets[<?php echo $i; ?>][financing_costs]"
-                                    value="{{ old('otherAssets.' . $i . '.financing_costs', $otherAssets[$i]->financing_costs ?? '') }}">
-                            </td>
-                            <td class="table-cell">
-                                <input type="text" name="otherAssets[<?php echo $i; ?>][income]"
-                                    value="{{ old('otherAssets.' . $i . '.income', $otherAssets[$i]->income ?? '') }}">
-                            </td>
+                            <td class="td-footer-value" x-text="$store.funding.formatCurrency(totals.income)"></td>
                         </tr>
-                        <?php } ?>
-
-
-
                     </tbody>
                 </table>
             </div>
 
+
             <!-- Contingent Liabilities -->
-            <div class="household-income house-hold overflow-auto container mb-1">
-                <h2 class="income-header">Contingent Liabilities (Personal Guarantees) </h2>
-                <table border="1" class="table-collapse">
+            <div x-data="dynamicRow({{ $contingentLib ?? [] }}, [{ creditor: '', nature_of_pg: '', unlimited_guarantee_or_limit_value: ''}], 'y')"
+                class="properties-wrapper household-income house-hold overflow-auto">
+                <div class="table-header d-flex justify-content-between align-items-center mb-1">
+                    @php
+                    $index = 'has_contingentLib';
+                    @endphp
+                    <h5>Do you have any contingent liabilities (personal guarantees)?</h5>
+                    <select name="{{ $index }}" x-model="selectInputValue"
+                        class="propertySelect question border-0 outline-none form-select">
+                        <option value="y">Yes</option>
+                        <option value="n">No</option>
+                    </select>
+                </div>
+
+                <div x-cloak x-show="selectInputValue === 'y'" :class="{'d-flex':selectInputValue === 'y'}"
+                    class="income-header propertyTableHeader justify-content-between align-items-center">
+                    <h2 class="header-text">Contingent Liabilities (Personal Guarantees)</h2>
+                    <h6 class="header-text" @click="addRow">
+                        <x-icon-plus />
+                    </h6>
+                </div>
+
+                <table x-show="selectInputValue === 'y'" border="1" class="propertyTable table-collapse" x-cloak>
                     <thead>
                         <tr>
                             <th class="header-cell left-padding">Creditor</th>
@@ -449,66 +548,116 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php for ($i = 0; $i < 3; $i++) { ?>
-                        <tr>
-                            <td class="table-cell">
-                                <input type="text" name="contingentLib[<?php echo $i; ?>][creditor]"
-                                    value="{{ old('contingentLib.' . $i . '.creditor', $contingentLib[$i]->creditor ?? '') }}">
-                            </td>
-                            <td class="table-cell">
-                                <input type="text" name="contingentLib[<?php echo $i; ?>][nature_of_pg]"
-                                    value="{{ old('contingentLib.' . $i . '.nature_of_pg', $contingentLib[$i]->nature_of_pg ?? '') }}">
-                            </td>
-                            <td class="table-cell">
-                                <input type="text"
-                                    name="contingentLib[<?php echo $i; ?>][unlimited_guarantee_or_limit_value]"
-                                    value="{{ old('contingentLib.' . $i . '.unlimited_guarantee_or_limit_value', $contingentLib[$i]->unlimited_guarantee_or_limit_value ?? '') }}">
-                            </td>
-                        </tr>
-
-                        <?php } ?>
+                        <template x-for="(row, index) in rows" :key="row.key">
+                            <tr>
+                                <td class="table-cell">
+                                    <input type="text" :name="`contingentLib[${index}][creditor]`"
+                                        x-model="row.creditor">
+                                </td>
+                                <td class="table-cell">
+                                    <input type="text" :name="`contingentLib[${index}][nature_of_pg]`"
+                                        x-model="row.nature_of_pg">
+                                </td>
+                                <td class="table-cell position-relative">
+                                    <input type="text" @focus="$el.value = $store.funding.stripCurrency($el.value)"
+                                        @blur="$el.value = $store.funding.formatCurrency($el.value)"
+                                        :name="`contingentLib[${index}][unlimited_guarantee_or_limit_value]`"
+                                        x-model="row.unlimited_guarantee_or_limit_value">
+                                    <span class="delete-row" title="Remove row" @click="removeRow(index)">
+                                        <x-icon-minus />
+                                    </span>
+                                </td>
+                            </tr>
+                        </template>
                     </tbody>
                 </table>
             </div>
 
+
             <!-- Household Income -->
-            <div class="household-income house-hold overflow-auto container mb-1">
-                <h2 class="income-header">Household Income</h2>
-                <table border="1" class="table-collapse">
-                    <tbody>
+            <div x-data="dynamicRow({{ $householdIncome ?? [] }}, [{ type_and_source: '', who_in_household: '', gross_annual_income: ''}], 'y')"
+                class="properties-wrapper household-income house-hold overflow-auto">
+                <div class="table-header d-flex justify-content-between align-items-center mb-1">
+                    @php
+                    $index = 'has_householdIncome';
+                    @endphp
+                    <h5>Do you have any other household income?</h5>
+                    <select name="{{ $index }}" x-model="selectInputValue"
+                        class="propertySelect question border-0 outline-none form-select">
+                        <option value="y">Yes</option>
+                        <option value="n">No</option>
+                    </select>
+                </div>
+
+                <div x-cloak x-show="selectInputValue === 'y'" :class="{'d-flex':selectInputValue === 'y'}"
+                    class="income-header propertyTableHeader justify-content-between align-items-center">
+                    <h2 class="header-text">Household Income</h2>
+                    <h6 class="header-text add-row" @click="addRow">
+                        <x-icon-plus />
+                    </h6>
+                </div>
+
+                <table x-show="selectInputValue === 'y'" border="1" class="propertyTable table-collapse" x-cloak>
+                    <thead>
                         <tr>
                             <th class="header-cell left-padding">Type and sources, e.g., dividends, salary/employment,
-                                benefits,
-                                investments</th>
+                                benefits, investments</th>
                             <th class="header-cell left-padding">Who in your household?</th>
                             <th class="header-cell left-padding">Gross Annual Income (£)</th>
                         </tr>
-                        <?php for ($i = 0; $i < 3; $i++) { ?>
-                        <tr>
-                            <td class="table-cell">
-                                <input type="text" name="householdIncome[<?php echo $i; ?>][type_and_source]"
-                                    value="{{ old('householdIncome.' . $i . '.type_and_source', $householdIncome[$i]->type_and_source ?? '') }}">
-                            </td>
-                            <td class="table-cell">
-                                <input type="text" name="householdIncome[<?php echo $i; ?>][who_in_household]"
-                                    value="{{ old('householdIncome.' . $i . '.who_in_household', $householdIncome[$i]->who_in_household ?? '') }}">
-                            </td>
-                            <td class="table-cell">
-                                <input type="text" name="householdIncome[<?php echo $i; ?>][gross_annual_income]"
-                                    value="{{ old('householdIncome.' . $i . '.gross_annual_income', $householdIncome[$i]->gross_annual_income ?? '') }}">
-                            </td>
-                        </tr>
-
-                        <?php } ?>
+                    </thead>
+                    <tbody>
+                        <template x-for="(row, index) in rows" :key="row.key">
+                            <tr>
+                                <td class="table-cell">
+                                    <input type="text" :name="`householdIncome[${index}][type_and_source]`"
+                                        x-model="row.type_and_source">
+                                </td>
+                                <td class="table-cell">
+                                    <input type="text" :name="`householdIncome[${index}][who_in_household]`"
+                                        x-model="row.who_in_household">
+                                </td>
+                                <td class="table-cell position-relative">
+                                    <input type="text" :name="`householdIncome[${index}][gross_annual_income]`"
+                                        x-model="row.gross_annual_income"
+                                        @focus="$el.value = $store.funding.stripCurrency($el.value)"
+                                        @blur="$el.value = $store.funding.formatCurrency($el.value)">
+                                    <span class="delete-row" title="Remove row" @click="removeRow(index)">
+                                        <x-icon-minus />
+                                    </span>
+                                </td>
+                            </tr>
+                        </template>
                     </tbody>
                 </table>
             </div>
 
             <!-- Unlisted Shares -->
-            <div class="unlisted-shares container mb-1 overflow-auto">
-                <h2 class="income-header">Unlisted Shares</h2>
-                <table border="1" class="table-collapse">
-                    <tbody>
+            <div x-data="dynamicRow({{ $unlistedShares ?? [] }}, [{ company_name: '', reg_number: '', status: '0', registered: '', shareholding: ''}], 'y')"
+                class="properties-wrapper unlisted-shares overflow-auto">
+
+                <div class="table-header d-flex justify-content-between align-items-center mb-1">
+                    @php
+                    $index = 'has_unlistedShares';
+                    @endphp
+                    <h5>Do you have any unlisted shares?</h5>
+                    <select name="{{ $index }}" x-model="selectInputValue"
+                        class="propertySelect question border-0 outline-none form-select">
+                        <option value="y">Yes</option>
+                        <option value="n">No</option>
+                    </select>
+                </div>
+
+                <div x-cloak x-show="selectInputValue === 'y'" :class="{'d-flex': selectInputValue === 'y'}"
+                    class="income-header propertyTableHeader justify-content-between align-items-center">
+                    <h2 class="header-text">Unlisted Shares</h2>
+                    <h6 class="header-text add-row" @click="addRow">
+                        <x-icon-plus />
+                    </h6>
+                </div>
+
+                <table x-show="selectInputValue === 'y'" border="1" class="propertyTable table-collapse" x-cloak>
+                    <thead>
                         <tr>
                             <th class="header-cell left-padding">Company Name</th>
                             <th class="header-cell left-padding">Registration Number</th>
@@ -516,41 +665,44 @@
                             <th class="header-cell left-padding">Registered</th>
                             <th class="header-cell left-padding">% Shareholding</th>
                         </tr>
-
-                        <?php for ($i = 0; $i < 3; $i++) { ?>
-                        <tr>
-                            <td class="table-cell">
-                                <input type="text" name="unlistedShares[<?php echo $i; ?>][company_name]"
-                                    value="{{ old('unlistedShares.' . $i . '.company_name', $unlistedShares[$i]->company_name ?? '') }}">
-                            </td>
-                            <td class="table-cell">
-                                <input type="text" name="unlistedShares[<?php echo $i; ?>][reg_number]"
-                                    value="{{ old('unlistedShares.' . $i . '.reg_number', $unlistedShares[$i]->reg_number ?? '') }}">
-                            </td>
-                            <td class="table-cell">
-                                <select class="w-100 border-0 outline-none" name="unlistedShares[{{ $i }}][status]">
-                                    <option value="0" {{ old('unlistedShares.' . $i . '.status' , $unlistedShares[$i]->
-                                        status ?? '') == 0 ? 'selected' : '' }}>Inactive</option>
-                                    <option value="1" {{ old('unlistedShares.' . $i . '.status' , $unlistedShares[$i]->
-                                        status ?? '') == 1 ? 'selected' : '' }}>Active</option>
-                                </select>
-                            </td>
-                            <td class="table-cell">
-                                <input type="text" name="unlistedShares[<?php echo $i; ?>][registered]"
-                                    value="{{ old('unlistedShares.' . $i . '.registered', $unlistedShares[$i]->registered ?? '') }}">
-                            </td>
-                            <td class="table-cell">
-                                <input type="text" name="unlistedShares[<?php echo $i; ?>][shareholding]"
-                                    value="{{ old('unlistedShares.' . $i . '.shareholding', $unlistedShares[$i]->shareholding ?? '') }}">
-                            </td>
-                        </tr>
-
-                        <?php } ?>
+                    </thead>
+                    <tbody>
+                        <template x-for="(row, index) in rows" :key="row.key">
+                            <tr>
+                                <td class="table-cell">
+                                    <input type="text" :name="`unlistedShares[${index}][company_name]`"
+                                        x-model="row.company_name">
+                                </td>
+                                <td class="table-cell">
+                                    <input type="text" :name="`unlistedShares[${index}][reg_number]`"
+                                        x-model="row.reg_number">
+                                </td>
+                                <td class="table-cell">
+                                    <select class="w-100 border-0 outline-none"
+                                        :name="`unlistedShares[${index}][status]`" x-model="row.status">
+                                        <option value="0" :selected="row.status === '0'">Inactive</option>
+                                        <option value="1" :selected="row.status === '1'">Active</option>
+                                    </select>
+                                </td>
+                                <td class="table-cell">
+                                    <input type="text" :name="`unlistedShares[${index}][registered]`"
+                                        x-model="row.registered">
+                                </td>
+                                <td class="table-cell position-relative">
+                                    <input type="text" :name="`unlistedShares[${index}][shareholding]`"
+                                        x-model="row.shareholding">
+                                    <span class="delete-row" title="Remove row" @click="removeRow(index)">
+                                        <x-icon-minus />
+                                    </span>
+                                </td>
+                            </tr>
+                        </template>
                     </tbody>
                 </table>
             </div>
 
-            <div class="container">
+
+            <div class="">
                 <div class="notes mb-2">
                     <p>*Please add any additional company’s not already included in the above table.</p>
                 </div>
@@ -607,71 +759,81 @@
                 </div>
             </div>
 
-            <div class="footer-content container">
+            <div class="footer-content ">
                 <table class="footer-table" border="1">
                     <tr>
                         <td class="highlighted-cell">Guarantor signature</td>
-                        <td class="position-relative bg-white" style="min-width: 100px;">
-                            <button type="button" class="btn signature-btn" data-bs-toggle="modal"
-                                data-bs-target="#signatureModel" id="signatureModelBtn">
-                            </button>
-                            <div class="prev-image">
-                                <div class="prev-image">
-                                    @if (!empty($directorInfo->signature))
-                                    <img id="signPrev" src="{{ asset('signatures/' . $directorInfo->signature) }}"
-                                        alt="Signature" class="img-fluid" width="100px">
-                                    @else
-                                    <img id="signPrev" src="{{ asset('images/white.jpg') }}" alt="" class="img-fluid"
-                                        width="100px">
-                                    @endif
-                                </div>
+                        <td class="position-relative bg-white" style="min-width: 100px;" x-data="signaturePadComponent"
+                            x-init="'{{ $directorInfo->signature }}' !== '' ? (signatureData = '{{ asset('signatures/' . $directorInfo->signature) }}') : '';">
 
+                            <button type="button" class="btn signature-btn" data-bs-toggle="modal"
+                                data-bs-target="#signatureModel" id="signatureModelBtn"></button>
+                            <div class="prev-image">
+                                <img x-cloak x-show="signatureData" id="signPrev" :src="signatureData" alt="Signature"
+                                    class="img-fluid" width="100px">
+                                <span x-cloak x-show="!signatureData" id="signPrev" class="sign-prev text-center">Click
+                                    here...</span>
                             </div>
 
+                            <!-- Signature Modal -->
+                            <div class="modal fade" id="signatureModel" tabindex="-1"
+                                aria-labelledby="signatureModelLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="signatureModelLabel">Draw Your Signature</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="hidden" name="signature" x-model="signatureData">
+                                            <canvas class="border" style="width: 100%; height: 300px;"
+                                                x-ref="canvas"></canvas>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" id="clearSignature" class="btn btn-secondary"
+                                                @click="resetSignaturePad">Clear</button>
+                                            <button type="button" id="saveSignature" class="btn btn-primary"
+                                                @click="saveSignature" data-bs-dismiss="modal">Save changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
+
 
                         <td class="highlighted-cell">Print Full Name</td>
                         <td class="bg-white">
-                            <input type="text" id="guarantor_name" name="guarantor_name"
-                                value="{{ $directorInfo->name }}">
+                            <span
+                                x-text="`${directorInfo.first_name || ''} ${directorInfo.middle_name || ''} ${directorInfo.surname || ''}`.trim()"></span>
                         </td>
 
                         <td class="highlighted-cell">Date</td>
                         <td class="bg-white">
-                            <input type="date" id="guarantor_date" name="guarantor_date">
+                            <input type="date" id="guarantor_date" name="guarantor_date" value="{{ date('Y-m-d') }}">
                         </td>
                     </tr>
                 </table>
             </div>
 
-            <div class="container mt-4">
-                <button id="submitSOPData" type="submit" class="btn btn-primary px-3 py-2">Submit</button>
-            </div>
+            <div class=" mt-4">
+                <button @click.prevent="saveData()" type="submit" class="btn btn-custom save-aip-data"
+                    :disabled="loadingStates.saveData">
+                    <span class="spinner-border spinner-border-sm processing-show"
+                        :class="loadingStates.saveData ? '' : 'd-none'" role="status" aria-hidden="true"></span>
+                    <span class="processing-show" :class="loadingStates.saveData ? '' : 'd-none'">Fetching...</span>
+                    <span class="default-show" :class="loadingStates.saveData ? 'd-none' : ''">Save</span>
+                </button>
 
-            <!-- Signature Modal -->
-            <div class="modal fade" id="signatureModel" tabindex="-1" aria-labelledby="signatureModelLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="signatureModelLabel">Draw Your Signature</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <input type="hidden" name="signature" id="signatureInput">
-                            <!-- Canvas for Signature -->
-                            <canvas id="signatureCanvas" class="border" style="width: 100%; height: 300px;"></canvas>
-                        </div>
-                        <div class="modal-footer">
-                            <!-- Clear and Save buttons -->
-                            <button type="button" id="clearSignature" class="btn btn-secondary">Clear</button>
-                            <button type="button" id="saveSignature" class="btn btn-primary"
-                                data-bs-dismiss="modal">Save changes</button>
-                        </div>
-                    </div>
-                </div>
+                <button @click.prevent="exportButton()" type="button" class="btn btn-custom download-aip-doc"
+                    :disabled="loadingStates.exportPDF">
+                    <span class="spinner-border spinner-border-sm processing-show"
+                        :class="loadingStates.exportPDF ? '' : 'd-none'" role="status" aria-hidden="true"></span>
+                    <span class="processing-show" :class="loadingStates.exportPDF ? '' : 'd-none'">Loading...</span>
+                    <span class="default-show" :class="loadingStates.exportPDF ? 'd-none' : ''">Export PDF</span>
+                </button>
             </div>
-
+        </div>
     </form>
 </div>
 @endsection
@@ -691,80 +853,12 @@
 
 @section('js-lib')
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+<script src="//unpkg.com/alpinejs" defer></script>
+<script src="{{ asset('js/x-main.js') }}"></script>
 @endsection
 
 @section('js')
 <script>
-    let signaturePad;
-    let canvas = $('#signatureCanvas')[0];
-
-    function resizeCanvas() {
-        let ratio = Math.max(window.devicePixelRatio || 1, 1);
-        let width = $(canvas).outerWidth();
-        let height = $(canvas).outerHeight(); 
-        canvas.width = width * ratio;
-        canvas.height = height * ratio;
-        canvas.getContext("2d").scale(ratio, ratio);
-    }
-
-    // Initialize SignaturePad when the modal is shown
-    $('#signatureModel').on('shown.bs.modal', function () {
-        resizeCanvas();
-        signaturePad = new SignaturePad(canvas);
-    });
-
-    // Save signature as image when clicking Save
-    $('#saveSignature').on('click', function () {
-        if (signaturePad.isEmpty()) {
-            alert('Please provide a signature first.');
-        } else {
-            let dataUrl = signaturePad.toDataURL(); 
-            $('#signatureInput').val(dataUrl);
-            $('#signPrev').attr('src', dataUrl); 
-            $('.prev-image').removeClass('d-none');
-        }
-    });
-
-    // Clear the signature when clicking Clear
-    $('#clearSignature').on('click', function () {
-        signaturePad.clear();
-        $('#signPrev').attr('src', '');
-        $('.prev-image').addClass('d-none');
-    });
-
-    // Ensure the canvas resizes correctly on window resize
-    $(window).on('resize', resizeCanvas); 
-
-    // prompt to download PDF
-    document.addEventListener('DOMContentLoaded', function () {
-        const form = document.getElementById('sopForm');
-
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            // Show SweetAlert confirmation
-            Swal.fire({
-                title: 'Download PDF?',
-                text: "Do you want to download a PDF of the submitted data?",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, download it!',
-                cancelButtonText: 'No, just submit',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    let input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = 'download_pdf';
-                    input.value = '1';
-                    form.appendChild(input);
-                    form.submit();
-                    form.removeChild(input);
-                } else {
-                    form.submit();
-                }
-            });
-        });
-    });
+    window.appData = {};
 </script>
-
 @endsection

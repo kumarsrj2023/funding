@@ -73,7 +73,7 @@
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="mb-3">
-                                            @php $index = 'phone'; @endphp
+                                            @php $index = 'mobile'; @endphp
                                             <label class="form-label" for="{{ $index }}">Phone no.</label>
                                             <input type="text" class="form-control {{ $index }} {{ $errors->has($index) ? 'is-invalid' : '' }}" id="{{ $index }}" name="{{ $index }}" value="{{ Helper::getInputValue($index, $data) }}">
                                             @if ($errors->has($index))

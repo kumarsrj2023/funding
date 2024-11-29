@@ -24,6 +24,12 @@
                     <span>Businesses</span>
                 </a>
             </li>
+            <li class="side-nav-item deal-pipeline">
+                <a href="{{ route('bca.pipeline') }}" class="side-nav-link">
+                    <i class="ri-bubble-chart-fill"></i>
+                    <span> Deal Pipeline </span>
+                </a>
+            </li>
             <li class="side-nav-item brokers">
                 <a href="{{ route('broker.list') }}" class="side-nav-link">
                     <i class="ri-contacts-line"></i>

@@ -25,7 +25,7 @@
                 <div class="row">
                     <div class="card no-lt-rt-pad">
                         {!! Helper::getDatatables(['Name', 'Address', 'Gender', 'Date Of Birth', 'Nationality',
-                        'Occupation', 'Date Appointed']) !!}
+                        'Occupation', 'Date Appointed', 'SOP Links']) !!}
                     </div>
                 </div>
             </div>
@@ -129,6 +129,7 @@
                         { className: "text-center", "targets": [ 5 ] },
                         { className: "text-left", "targets": [ 6 ] },
                         { className: "text-left", "targets": [ 7 ] },
+                        { className: "text-left", "targets": [ 8 ] },
                     ],
                     "columns":[
                         { "data": "actions", "name":"index_data" },
@@ -139,6 +140,7 @@
                         { "data": "nationality", "name":"nationality" },
                         { "data": "occupation", "name":"occupation" },
                         { "data": "date_appointed", "name":"date_appointed" },
+                        { "data": "sop_button", "name":"sop_button" },
                     ]
                 });
     }

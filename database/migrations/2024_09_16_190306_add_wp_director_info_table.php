@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('tel_business', 15)->nullable()->after('wp_business_info_id');
             $table->string('declared_bankrupt', 15)->nullable()->after('wp_business_info_id');
             $table->string('signature', 100)->nullable()->after('wp_business_info_id');
+            $table->string('house_number', 100)->nullable()->after('address_street');
         });
     }
 

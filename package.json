@@ -10,5 +10,10 @@
         "lodash": "^4.17.19",
         "postcss": "^8.1.14",
         "vite": "^4.0.0"
+    },
+    "dependencies": {
+        "financejs": "^4.1.0",
+        "finterest": "^1.0.5",
+        "formulajs": "^1.0.8"
     }
 }

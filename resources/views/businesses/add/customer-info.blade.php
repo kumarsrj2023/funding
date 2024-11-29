@@ -12,7 +12,8 @@
                     <li class="breadcrumb-item active">Customer Info</li>
                 </ol>
             </div>
-            <h4 class="page-title">{{ !empty($business_info) && !empty($business_info->business_name) ? $business_info->business_name : 'Customer Info' }}</h4>
+            <h4 class="page-title">{{ !empty($business_info) && !empty($business_info->business_name) ?
+                $business_info->business_name : 'Customer Info' }}</h4>
         </div>
     </div>
 </div>
@@ -24,7 +25,7 @@
             <div class="card">
                 <div class="card-body">
                     @if(!empty($id))
-                        @include('businesses.add.nav', ['id' => $id])
+                    @include('businesses.add.nav', ['id' => $id])
                     @endif
                     <div class="row">
                         <div class="card no-lt-rt-pad">
@@ -35,29 +36,36 @@
                                 <div class="row">
                                     <div class="col-md-6 col-12">
                                         <div class="mb-3">
-                                            @php 
-                                                $index = 'title';
-                                                $list = ['Mr.', 'Mrs.', 'Ms.', 'Dr.'];
+                                            @php
+                                            $index = 'title';
+                                            $list = ['Mr.', 'Mrs.', 'Ms.', 'Dr.'];
                                             @endphp
-                                            <label class="form-label" for="{{ $index }}">Title <span class="text-danger">*</span></label>
-                                            <select class="form-select {{ $errors->has($index) ? 'is-invalid' : '' }}" name="{{ $index }}" id="{{ $index }}">
+                                            <label class="form-label" for="{{ $index }}">Title <span
+                                                    class="text-danger">*</span></label>
+                                            <select class="form-select {{ $errors->has($index) ? 'is-invalid' : '' }}"
+                                                name="{{ $index }}" id="{{ $index }}">
                                                 <option value="">Select title</option>
                                                 @foreach($list as $item)
-                                                    <option value="{{ $item }}" {{ Helper::getInputValue($index, $data) == $item ? 'selected' : '' }}>{{ $item }}</option>
+                                                <option value="{{ $item }}" {{ Helper::getInputValue($index,
+                                                    $data)==$item ? 'selected' : '' }}>{{ $item }}</option>
                                                 @endforeach
                                             </select>
                                             @if ($errors->has($index))
-                                                <div class="invalid-feedback">{{ $errors->first($index) }}</div>
+                                            <div class="invalid-feedback">{{ $errors->first($index) }}</div>
                                             @endif
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="mb-3">
                                             @php $index = 'first_name'; @endphp
-                                            <label class="form-label" for="{{ $index }}">First Name <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control {{ $index }} {{ $errors->has($index) ? 'is-invalid' : '' }}" id="{{ $index }}" name="{{ $index }}" value="{{ Helper::getInputValue($index, $data) }}">
+                                            <label class="form-label" for="{{ $index }}">First Name <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text"
+                                                class="form-control {{ $index }} {{ $errors->has($index) ? 'is-invalid' : '' }}"
+                                                id="{{ $index }}" name="{{ $index }}"
+                                                value="{{ Helper::getInputValue($index, $data) }}">
                                             @if ($errors->has($index))
-                                                <div class="invalid-feedback">{{ $errors->first($index) }}</div>
+                                            <div class="invalid-feedback">{{ $errors->first($index) }}</div>
                                             @endif
                                         </div>
                                     </div>
@@ -65,19 +73,26 @@
                                         <div class="mb-3">
                                             @php $index = 'middle_name'; @endphp
                                             <label class="form-label" for="{{ $index }}">Middle Name</label>
-                                            <input type="text" class="form-control {{ $index }} {{ $errors->has($index) ? 'is-invalid' : '' }}" id="{{ $index }}" name="{{ $index }}" value="{{ Helper::getInputValue($index, $data) }}">
+                                            <input type="text"
+                                                class="form-control {{ $index }} {{ $errors->has($index) ? 'is-invalid' : '' }}"
+                                                id="{{ $index }}" name="{{ $index }}"
+                                                value="{{ Helper::getInputValue($index, $data) }}">
                                             @if ($errors->has($index))
-                                                <div class="invalid-feedback">{{ $errors->first($index) }}</div>
+                                            <div class="invalid-feedback">{{ $errors->first($index) }}</div>
                                             @endif
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="mb-3">
                                             @php $index = 'last_name'; @endphp
-                                            <label class="form-label" for="{{ $index }}">Last Name <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control {{ $index }} {{ $errors->has($index) ? 'is-invalid' : '' }}" id="{{ $index }}" name="{{ $index }}" value="{{ Helper::getInputValue($index, $data) }}">
+                                            <label class="form-label" for="{{ $index }}">Last Name <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text"
+                                                class="form-control {{ $index }} {{ $errors->has($index) ? 'is-invalid' : '' }}"
+                                                id="{{ $index }}" name="{{ $index }}"
+                                                value="{{ Helper::getInputValue($index, $data) }}">
                                             @if ($errors->has($index))
-                                                <div class="invalid-feedback">{{ $errors->first($index) }}</div>
+                                            <div class="invalid-feedback">{{ $errors->first($index) }}</div>
                                             @endif
                                         </div>
                                     </div>
@@ -85,19 +100,26 @@
                                         <div class="mb-3">
                                             @php $index = 'phone'; @endphp
                                             <label class="form-label" for="{{ $index }}">Phone no.</label>
-                                            <input type="text" class="form-control {{ $index }} {{ $errors->has($index) ? 'is-invalid' : '' }}" id="{{ $index }}" name="{{ $index }}" value="{{ Helper::getInputValue($index, $data) }}">
+                                            <input type="text"
+                                                class="form-control {{ $index }} {{ $errors->has($index) ? 'is-invalid' : '' }}"
+                                                id="{{ $index }}" name="{{ $index }}"
+                                                value="{{ Helper::getInputValue($index, $data) }}">
                                             @if ($errors->has($index))
-                                                <div class="invalid-feedback">{{ $errors->first($index) }}</div>
+                                            <div class="invalid-feedback">{{ $errors->first($index) }}</div>
                                             @endif
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="mb-3">
                                             @php $index = 'email'; @endphp
-                                            <label class="form-label" for="{{ $index }}">Email <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control {{ $index }} {{ $errors->has($index) ? 'is-invalid' : '' }}" id="{{ $index }}" name="{{ $index }}" value="{{ Helper::getInputValue($index, $data) }}">
+                                            <label class="form-label" for="{{ $index }}">Email <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text"
+                                                class="form-control {{ $index }} {{ $errors->has($index) ? 'is-invalid' : '' }}"
+                                                id="{{ $index }}" name="{{ $index }}"
+                                                value="{{ Helper::getInputValue($index, $data) }}">
                                             @if ($errors->has($index))
-                                                <div class="invalid-feedback">{{ $errors->first($index) }}</div>
+                                            <div class="invalid-feedback">{{ $errors->first($index) }}</div>
                                             @endif
                                         </div>
                                     </div>
@@ -105,63 +127,162 @@
                                         <div class="mb-3">
                                             @php $index = 'dob'; @endphp
                                             <label class="form-label" for="{{ $index }}">Date of Birth</label>
-                                            <input type="date" class="form-control {{ $index }} {{ $errors->has($index) ? 'is-invalid' : '' }}" id="{{ $index }}" name="{{ $index }}" value="{{ Helper::getInputValue($index, $data) }}">
+                                            <input type="date"
+                                                class="form-control {{ $index }} {{ $errors->has($index) ? 'is-invalid' : '' }}"
+                                                id="{{ $index }}" name="{{ $index }}"
+                                                value="{{ Helper::getInputValue($index, $data) }}">
                                             @if ($errors->has($index))
-                                                <div class="invalid-feedback">{{ $errors->first($index) }}</div>
+                                            <div class="invalid-feedback">{{ $errors->first($index) }}</div>
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-12">
+                                    {{-- <div class="col-md-6 col-12">
                                         <div class="mb-3">
-                                            @php 
-                                                $index = 'marital_status';
-                                                $list = ['Married', 'Unmarried', 'Civil Partnership', 'Divorced', 'Legally Separated'];
+                                            @php
+                                            $index = 'marital_status';
+                                            $list = ['Married', 'Unmarried', 'Civil Partnership', 'Divorced', 'Legally
+                                            Separated'];
                                             @endphp
                                             <label class="form-label" for="{{ $index }}">Marital status</label>
-                                            <select class="form-select {{ $errors->has($index) ? 'is-invalid' : '' }}" name="{{ $index }}" id="{{ $index }}">
+                                            <select class="form-select {{ $errors->has($index) ? 'is-invalid' : '' }}"
+                                                name="{{ $index }}" id="{{ $index }}">
                                                 <option value="">Select marital status</option>
                                                 @foreach($list as $item)
-                                                    <option value="{{ $item }}" {{ Helper::getInputValue($index, $data) == $item ? 'selected' : '' }}>{{ $item }}</option>
+                                                <option value="{{ $item }}" {{ Helper::getInputValue($index,
+                                                    $data)==$item ? 'selected' : '' }}>{{ $item }}</option>
                                                 @endforeach
                                             </select>
                                             @if ($errors->has($index))
-                                                <div class="invalid-feedback">{{ $errors->first($index) }}</div>
+                                            <div class="invalid-feedback">{{ $errors->first($index) }}</div>
                                             @endif
                                         </div>
-                                    </div>
-                                    <div class="col-md-6 col-12">
+                                    </div> --}}
+                                    {{-- <div class="col-md-6 col-12">
                                         <div class="mb-3">
                                             @php $index = 'number_of_dependents'; @endphp
                                             <label class="form-label" for="{{ $index }}">Number of dependents</label>
-                                            <select class="form-select {{ $errors->has($index) ? 'is-invalid' : '' }}" name="{{ $index }}" id="{{ $index }}">
+                                            <select class="form-select {{ $errors->has($index) ? 'is-invalid' : '' }}"
+                                                name="{{ $index }}" id="{{ $index }}">
                                                 <option value="">Select number of dependents</option>
-                                                @for($dependendents = 1; $dependendents <= 15; $dependendents++)
-                                                    <option value="{{ $dependendents }}" {{ Helper::getInputValue($index, $data) == $dependendents ? 'selected' : '' }}>{{ $dependendents }}</option>
-                                                @endfor
+                                                @for($dependendents = 1; $dependendents <= 15; $dependendents++) <option
+                                                    value="{{ $dependendents }}" {{ Helper::getInputValue($index,
+                                                    $data)==$dependendents ? 'selected' : '' }}>{{ $dependendents }}
+                                                    </option>
+                                                    @endfor
                                             </select>
                                             @if ($errors->has($index))
-                                                <div class="invalid-feedback">{{ $errors->first($index) }}</div>
+                                            <div class="invalid-feedback">{{ $errors->first($index) }}</div>
+                                            @endif
+                                        </div>
+                                    </div> --}}
+                                    {{-- <div class="col-md-6 col-12">
+                                        <div class="mb-3">
+                                            @php $index = 'identification_document'; @endphp
+                                            <label class="form-label" for="{{ $index }}">Identification document</label>
+                                            <select class="form-select {{ $errors->has($index) ? 'is-invalid' : '' }}"
+                                                name="{{ $index }}" id="{{ $index }}">
+                                                <option value="">Select document</option>
+                                                <option value="driver_license" {{ Helper::getInputValue($index,
+                                                    $data)=='driver_license' ? 'selected' : '' }}>Driver's License
+                                                </option>
+                                                <option value="passport" {{ Helper::getInputValue($index,
+                                                    $data)=='passport' ? 'selected' : '' }}>Passport</option>
+                                            </select>
+                                            @if ($errors->has($index))
+                                            <div class="invalid-feedback">{{ $errors->first($index) }}</div>
+                                            @endif
+                                        </div>
+                                    </div> --}}
+
+
+
+
+                                    <div class="col-md-6 col-12">
+                                        <div class="mb-3">
+                                            @php
+                                            $index = 'ownership';
+                                            $list = ['Home Owner (Own Home)', 'Home Owner (Investment Property)',
+                                            'Private Tenant', 'Council Tenant', 'Living Rent Free', 'Other'];
+                                            @endphp
+                                            <label class="form-label" for="{{ $index }}">Ownership</label>
+                                            <select class="form-select {{ $errors->has($index) ? 'is-invalid' : '' }}"
+                                                name="{{ $index }}" id="{{ $index }}">
+                                                <option value="">Select ownership</option>
+                                                @foreach($list as $item)
+                                                <option value="{{ $item }}" {{ Helper::getInputValue($index,
+                                                    $data)==$item ? 'selected' : '' }}>{{ $item }}</option>
+                                                @endforeach
+                                            </select>
+                                            @if ($errors->has($index))
+                                            <div class="invalid-feedback">{{ $errors->first($index) }}</div>
                                             @endif
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="mb-3">
-                                            @php $index = 'identification_document'; @endphp
-                                            <label class="form-label" for="{{ $index }}">Identification document</label>
-                                            <select class="form-select {{ $errors->has($index) ? 'is-invalid' : '' }}" name="{{ $index }}" id="{{ $index }}">
-                                                <option value="">Select document</option>
-                                                <option value="driver_license" {{ Helper::getInputValue($index, $data) == 'driver_license' ? 'selected' : '' }}>Driver's License</option>
-                                                <option value="passport" {{ Helper::getInputValue($index, $data) == 'passport' ? 'selected' : '' }}>Passport</option>
+                                            @php
+                                            $index = 'floating_charge';
+                                            $list = ['Yes', 'No'];
+                                            @endphp
+                                            <label class="form-label" for="{{ $index }}">Would you be willing to provide
+                                                a floating charge on the business?</label>
+                                            <select class="form-select {{ $errors->has($index) ? 'is-invalid' : '' }}"
+                                                name="{{ $index }}" id="{{ $index }}">
+                                                <option value="">Select One</option>
+                                                @foreach($list as $item)
+                                                <option value="{{ $item }}" {{ Helper::getInputValue($index,
+                                                    $data)==$item ? 'selected' : '' }}>{{ $item }}</option>
+                                                @endforeach
                                             </select>
                                             @if ($errors->has($index))
-                                                <div class="invalid-feedback">{{ $errors->first($index) }}</div>
+                                            <div class="invalid-feedback">{{ $errors->first($index) }}</div>
                                             @endif
                                         </div>
                                     </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="mb-3">
+                                            @php
+                                            $index = 'banking_access';
+                                            $list = ['Yes', 'No'];
+                                            @endphp
+                                            <label class="form-label" for="{{ $index }}">Would you be prepared to give
+                                                us open banking access to your account?</label>
+                                            <select class="form-select {{ $errors->has($index) ? 'is-invalid' : '' }}"
+                                                name="{{ $index }}" id="{{ $index }}">
+                                                <option value="">Select One</option>
+                                                @foreach($list as $item)
+                                                <option value="{{ $item }}" {{ Helper::getInputValue($index,
+                                                    $data)==$item ? 'selected' : '' }}>{{ $item }}</option>
+                                                @endforeach
+                                            </select>
+                                            @if ($errors->has($index))
+                                            <div class="invalid-feedback">{{ $errors->first($index) }}</div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    {{-- <div class="col-md-6 col-12">
+                                        <div class="mb-3">
+                                            @php $index = 'proof_of_address'; @endphp
+                                            <label class="form-label" for="{{ $index }}">Proof of home address</label>
+                                            <select class="form-select {{ $errors->has($index) ? 'is-invalid' : '' }}"
+                                                name="{{ $index }}" id="{{ $index }}">
+                                                <option value="">Select your proof</option>
+                                                <option value="council_tax" {{ Helper::getInputValue($index,
+                                                    $data)=='council_tax' ? 'selected' : '' }}>Council Tax</option>
+                                                <option value="bank_statement" {{ Helper::getInputValue($index,
+                                                    $data)=='bank_statement' ? 'selected' : '' }}>Bank Statement
+                                                </option>
+                                            </select>
+                                            @if ($errors->has($index))
+                                            <div class="invalid-feedback">{{ $errors->first($index) }}</div>
+                                            @endif
+                                        </div>
+                                    </div> --}}
+
                                 </div>
                             </div>
                         </div>
-                        <div class="card no-lt-rt-pad">
+                        <!-- <div class="card no-lt-rt-pad">
                             <div class="card-header">
                                 <h4 class="header-title mb-0">Residence Details</h4>
                             </div>
@@ -187,9 +308,10 @@
                                         <div class="mb-3">
                                             @php $index = 'county'; @endphp
                                             <label class="form-label" for="{{ $index }}">County</label>
-                                            <select class="form-select {{ $errors->has($index) ? 'is-invalid' : '' }}" name="{{ $index }}" id="{{ $index }}">
+                                            <input type="text" class="form-control {{ $index }} {{ $errors->has($index) ? 'is-invalid' : '' }}" id="{{ $index }}" name="{{ $index }}" value="{{ Helper::getInputValue($index, $data) }}">
+                                            {{-- <select class="form-select {{ $errors->has($index) ? 'is-invalid' : '' }}" name="{{ $index }}" id="{{ $index }}">
                                                 <option value="">Select county</option>
-                                            </select>
+                                            </select> --}}
                                             @if ($errors->has($index))
                                                 <div class="invalid-feedback">{{ $errors->first($index) }}</div>
                                             @endif
@@ -265,11 +387,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card no-lt-rt-pad">
-                            <div class="card-header">
-                                <h4 class="header-title mb-0">Security</h4>
-                            </div>
+                        </div> -->
+                        <!-- <div class="card no-lt-rt-pad">
                             <div class="card-body compact-card-body">
                                 <div class="row">
                                     <div class="col-md-6 col-12">
@@ -292,6 +411,42 @@
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="mb-3">
+                                            @php 
+                                                $index = 'floating_charge';
+                                                $list = ['Yes', 'No'];
+                                            @endphp
+                                            <label class="form-label" for="{{ $index }}">Would you be willing to provide a floating charge on the business?</label>
+                                            <select class="form-select {{ $errors->has($index) ? 'is-invalid' : '' }}" name="{{ $index }}" id="{{ $index }}">
+                                                <option value="">Select One</option>
+                                                @foreach($list as $item)
+                                                    <option value="{{ $item }}" {{ Helper::getInputValue($index, $data) == $item ? 'selected' : '' }}>{{ $item }}</option>
+                                                @endforeach
+                                            </select>
+                                            @if ($errors->has($index))
+                                                <div class="invalid-feedback">{{ $errors->first($index) }}</div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="mb-3">
+                                            @php 
+                                                $index = 'banking_access';
+                                                $list = ['Yes', 'No'];
+                                            @endphp
+                                            <label class="form-label" for="{{ $index }}">Would you be prepared to give us open banking access to your account?</label>
+                                            <select class="form-select {{ $errors->has($index) ? 'is-invalid' : '' }}" name="{{ $index }}" id="{{ $index }}">
+                                                <option value="">Select One</option>
+                                                @foreach($list as $item)
+                                                    <option value="{{ $item }}" {{ Helper::getInputValue($index, $data) == $item ? 'selected' : '' }}>{{ $item }}</option>
+                                                @endforeach
+                                            </select>
+                                            @if ($errors->has($index))
+                                                <div class="invalid-feedback">{{ $errors->first($index) }}</div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    {{-- <div class="col-md-6 col-12">
+                                        <div class="mb-3">
                                             @php $index = 'proof_of_address'; @endphp
                                             <label class="form-label" for="{{ $index }}">Proof of home address</label>
                                             <select class="form-select {{ $errors->has($index) ? 'is-invalid' : '' }}" name="{{ $index }}" id="{{ $index }}">
@@ -303,7 +458,7 @@
                                                 <div class="invalid-feedback">{{ $errors->first($index) }}</div>
                                             @endif
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-md-12 col-12 council-tax {{ !empty($data) && $data->proof_of_address == 'council_tax' ? '' : 'd-none'  }}">
                                         <div class="mb-3">
                                             @php $index = 'council_tax_doc'; @endphp
@@ -421,7 +576,7 @@
                                                     <p class="mb-0">Would you be willing to provide a personal guarantee?</p>
                                                 </label>
                                             </div>
-                                            <div class="form-check form-checkbox-dark mb-2">
+                                            {{-- <div class="form-check form-checkbox-dark mb-2">
                                                 @php $index = 'floating_charge'; @endphp
                                                 <input type="checkbox" class="form-check-input {{ $index }}" id="{{ $index }}" name="{{ $index }}" value="true" {{ Helper::getInputValue($index, $data) == 'true' ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="{{ $index }}">
@@ -434,17 +589,18 @@
                                                 <label class="form-check-label" for="{{ $index }}">
                                                     <p class="mb-0">Would you be prepared to give us open banking access to your account?</p>
                                                 </label>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="row">
                         <div class="col-6">
                             <button class="btn btn-custom btn-show-processing me-1" type="submit">
-                                <span class="spinner-border spinner-border-sm processing-show d-none me-1" role="status" aria-hidden="true"></span>
+                                <span class="spinner-border spinner-border-sm processing-show d-none me-1" role="status"
+                                    aria-hidden="true"></span>
                                 <span class="processing-show d-none">Saving...</span>
                                 <span class="default-show">Save</span>
                             </button>

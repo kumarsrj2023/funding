@@ -1,4 +1,15 @@
 <div>
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem">
+        <tr>
+            <td style="width: 60%; vertical-align: middle;">
+                <h2 style="font-family: 'Roboto', sans-serif; font-weight: bold; margin:0; padding: 0;">Statement of Financial Position</h2>
+            </td>
+            <td style="width: 40%; text-align: right; vertical-align: middle;">
+                <img src="images/logo.png" alt="dark logo" style="width: 200px;">
+            </td>
+        </tr>
+    </table>
+    
     <p style="font-size: 13px; margin: 0;">
         ALL INFORMATION IS HELD IN STRICTEST CONFIDENCE IN ACCORDANCE WITH OUR General Data Protection Regulation (GDPR)
         POLICY.
@@ -21,71 +32,109 @@
             style="background-color: rgb(26, 51, 95); color: white; padding: 10px; font-size: 14px; font-weight: 600; margin: 0;">
             Name and Other Details of Proposed Guarantor
         </h2>
-        <table style="border-collapse: collapse; width: 100%;">
+        <table style="border-collapse: collapse; width: 100%; table-layout: fixed;">
             <tr>
-                <td style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 60px;">Title
+                <td style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 110px;">Title
                 </td>
-                <td style="padding: 8px; border: 1px solid;">{{ $directorInfo->title }}</td>
+                <td style="padding: 8px; border: 1px solid;">{{ $directorInfo->title ?? '' }}</td>
                 <td style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 110px;">First
                     Name</td>
-                <td style="padding: 8px; border: 1px solid;">{{ $directorInfo->first_name }}</td>
+                <td style="padding: 8px; border: 1px solid;">{{ $directorInfo->first_name ?? '' }}</td>
                 <td style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 110px;">Middle
                     Name</td>
-                <td style="padding: 8px; border: 1px solid;">{{ $directorInfo->middle_name }}</td>
+                <td style="padding: 8px; border: 1px solid;">{{ $directorInfo->middle_name ?? '' }}</td>
                 <td style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 110px;">Last
                     Name</td>
-                <td style="padding: 8px; border: 1px solid;">{{ $directorInfo->surname }}</td>
+                <td style="padding: 8px; border: 1px solid;">{{ $directorInfo->surname ?? '' }}</td>
             </tr>
-
+            <tr>
+                <td colspan="8"
+                    style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 100%;">Home Address</td>
+            </tr>
             <tr>
                 <td colspan="3"
-                    style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 110px;">Full
-                    Street Address</td>
-                <td colspan="5" style="padding: 8px; border: 1px solid;">{{ $directorInfo->address_simple_value }}</td>
+                    style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 110px;">House/Flat No.</td>
+                <td colspan="5" style="padding: 8px; border: 1px solid;">{{ $directorInfo->house_number ?? '' }}</td>
+            </tr>
+            <tr>
+                <td colspan="3"
+                    style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 110px;">Address Line 1</td>
+                <td colspan="5" style="padding: 8px; border: 1px solid;">{{ $directorInfo->address_line_1 ?? '' }}</td>
+            </tr>
+            <tr>
+                <td colspan="3"
+                    style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 110px;">Address Line 2</td>
+                <td colspan="5" style="padding: 8px; border: 1px solid;">{{ $directorInfo->address_line_2 ?? '' }}</td>
+            </tr>
+            <tr>
+                <td colspan="3"
+                    style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 110px;">Address Line 3</td>
+                <td colspan="5" style="padding: 8px; border: 1px solid;">{{ $directorInfo->address_line_3 ?? '' }}</td>
+            </tr>
+            <tr>
+                <td colspan="3"
+                    style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 110px;">Postal Code</td>
+                <td colspan="5" style="padding: 8px; border: 1px solid;">{{ $directorInfo->address_postal_code ?? '' }}</td>
             </tr>
 
             <tr>
                 <td colspan="3"
                     style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 110px;">Time in
                     current address (months)</td>
-                <td colspan="5" style="padding: 8px; border: 1px solid;">{{ $directorInfo->time_in_curr_address }}</td>
+                <td colspan="5" style="padding: 8px; border: 1px solid;">{{ $directorInfo->time_in_curr_address ?? '' }}</td>
             </tr>
 
             <tr>
                 <?php
-                    $date = new DateTime($directorInfo->date_of_birth);
+                    $date = new DateTime($directorInfo->date_of_birth ?? '');
                     $formattedDate = $date->format('d-m-Y');
                     ?>
                 <td colspan="2"
-                    style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 110px;">Date of
+                    style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243);">Date of
                     Birth</td>
                 <td colspan="2" style="padding: 8px; border: 1px solid;">{{ $formattedDate }}</td>
 
-                <td style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 110px;">Email
+                <td colspan="2" style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243);">Email
                 </td>
-                <td colspan="3" style="padding: 8px; border: 1px solid;">{{ $directorInfo->email }}</td>
+                <td colspan="2" style="padding: 8px; border: 1px solid;">{{ $directorInfo->email ?? '' }}</td>
             </tr>
 
             <tr>
                 <td colspan="2"
                     style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 110px;">Tel
                     Home</td>
-                <td colspan="2" style="padding: 8px; border: 1px solid;">{{ $directorInfo->tel_home }}</td>
+                <td colspan="2" style="padding: 8px; border: 1px solid;">{{ $directorInfo->tel_home ?? '' }}</td>
 
                 <td colspan="1"
                     style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 110px;">Tel
                     Business</td>
-                <td colspan="1" style="padding: 8px; border: 1px solid;">{{ $directorInfo->tel_business }}</td>
+                <td colspan="1" style="padding: 8px; border: 1px solid;">{{ $directorInfo->tel_business ?? '' }}</td>
 
                 <td style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 110px;">Mobile
                 </td>
-                <td colspan="1" style="padding: 8px; border: 1px solid;">{{ $directorInfo->mobile }}</td>
+                <td colspan="1" style="padding: 8px; border: 1px solid;">{{ $directorInfo->mobile ?? '' }}</td>
             </tr>
             <tr>
                 <td colspan="6"
                     style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 110px;">Are You
-                    or Have You Ever Been Declared Bankrupt? (Y/N)</td>
-                <td colspan="2" style="padding: 8px; border: 1px solid;">{{ $directorInfo->declared_bankrupt }}</td>
+                    or Have You Ever Been Declared Bankrupt? (Yes/No)</td>
+                <td colspan="2" style="padding: 8px; border: 1px solid;">{{ !empty($directorInfo->declared_bankrupt) && $directorInfo->declared_bankrupt === 'y' ?
+                    'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <td colspan="3"
+                    style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 110px;">Next of Kin Full Name</td>
+                <td colspan="5" style="padding: 8px; border: 1px solid;">{{ $directorInfo->next_of_kin_full_name ?? '' }}</td>
+            </tr>
+            <tr>
+                <td colspan="3"
+                    style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 110px;">Next of Kin Mobile Number</td>
+                <td colspan="5" style="padding: 8px; border: 1px solid;">{{ $directorInfo->next_of_kin_mobile_number ?? '' }}</td>
+            </tr>
+            <tr>
+                <td colspan="3"
+                    style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 110px;">Next of Kin Email Address</td>
+                <td colspan="5" style="padding: 8px; border: 1px solid;">{{ $directorInfo->next_of_kin_email_address ?? '' }}</td>
             </tr>
         </table>
     </div>
@@ -96,7 +145,7 @@
             style="background-color: rgb(26, 51, 95); color: white; padding: 10px; font-size: 14px; font-weight: 600; margin: 0;">
             Assets and Liabilities
         </h2>
-        <div class="text" style="padding: 8px;border:1px solid;padding-bottom:320px">
+        <div class="text" style="padding: 8px;border:1px solid;padding-bottom:20px">
             <p class="" style="margin:0;margin-bottom: 10px;">Please provide a full list of assets whether held in your
                 name or otherwise and liabilities. If you need more space for details please set out on a separate
                 sheet.</p>
@@ -139,14 +188,14 @@
                         Where appropriate please provide account/registration numbers
                     </th>
                     <td colspan="2" style="padding: 8px; border: 1px solid;">
-                        {{ $assetInfo->account_or_regnumber }}
+                        {{ $assetInfo->account_or_regnumber ?? '' }}
                     </td>
                     <th colspan="2"
                         style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); text-align: left;">
                         Where appropriate please provide account/registration numbers
                     </th>
                     <td colspan="2" style="padding: 8px; border: 1px solid;">
-                        {{ $liabilitiesInfo->account_or_regnumber }}
+                        {{ $liabilitiesInfo->account_or_regnumber ?? '' }}
                     </td>
                 </tr>
                 <tr>
@@ -155,14 +204,14 @@
                         Cash in Bank & Deposit (£)
                     </td>
                     <td colspan="2" style="padding: 8px; border: 1px solid;">
-                        {{ $assetInfo->cash_in_bank_and_deposit }}
+                        {{ $assetInfo->cash_in_bank_and_deposit ?? '' }}
                     </td>
                     <td colspan="2"
                         style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); text-align: left;">
                         Personal Loans & Overdrafts
                     </td>
                     <td colspan="2" style="padding: 8px; border: 1px solid;">
-                        {{ $liabilitiesInfo->personal_loans_and_overdrafts }}
+                        {{ $liabilitiesInfo->personal_loans_and_overdrafts ?? '' }}
                     </td>
                 </tr>
                 <tr>
@@ -171,30 +220,30 @@
                         Publicly Listed Shares
                     </td>
                     <td colspan="2" style="padding: 8px; border: 1px solid;">
-                        {{ $assetInfo->public_listed_shares }}
+                        {{ $assetInfo->public_listed_shares ?? '' }}
                     </td>
                     <td colspan="2"
                         style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); text-align: left;">
                         Mortgages
                     </td>
                     <td colspan="2" style="padding: 8px; border: 1px solid;">
-                        {{ $liabilitiesInfo->mortgages }}
+                        {{ $liabilitiesInfo->mortgages ?? '' }}
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2"
                         style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); text-align: left;">
-                        Properties Y/N (See below)
+                        Properties Yes/No (See below)
                     </td>
                     <td colspan="2" style="padding: 8px; border: 1px solid;">
-                        {{ $assetInfo->properties == 1 ? 'Y' : 'N' }}
+                        {{ !empty($assetInfo->properties) && $assetInfo->properties == 1 ? 'Yes' : 'No' }}
                     </td>
                     <td colspan="2"
                         style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); text-align: left;">
                         Credit Card Debts
                     </td>
                     <td colspan="2" style="padding: 8px; border: 1px solid;">
-                        {{ $liabilitiesInfo->credit_card_debts }}
+                        {{ $liabilitiesInfo->credit_card_debts ?? '' }}
                     </td>
                 </tr>
                 <tr>
@@ -203,14 +252,14 @@
                         Motor Vehicles & Boats
                     </td>
                     <td colspan="2" style="padding: 8px; border: 1px solid;">
-                        {{ $assetInfo->motor_vehicles_boats }}
+                        {{ $assetInfo->motor_vehicles_boats ?? '' }}
                     </td>
                     <td colspan="2"
                         style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); text-align: left;">
                         Motor Loan
                     </td>
                     <td colspan="2" style="padding: 8px; border: 1px solid;">
-                        {{ $liabilitiesInfo->motor_loan }}
+                        {{ $liabilitiesInfo->motor_loan ?? '' }}
                     </td>
                 </tr>
                 <tr>
@@ -219,14 +268,14 @@
                         Other Cash Investments
                     </td>
                     <td colspan="2" style="padding: 8px; border: 1px solid;">
-                        {{ $assetInfo->other_cash_investments }}
+                        {{ $assetInfo->other_cash_investments ?? '' }}
                     </td>
                     <td colspan="2"
                         style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); text-align: left;">
                         Property Rental
                     </td>
                     <td colspan="2" style="padding: 8px; border: 1px solid;">
-                        {{ $liabilitiesInfo->property_rental }}
+                        {{ $liabilitiesInfo->property_rental ?? '' }}
                     </td>
                 </tr>
                 <tr>
@@ -235,14 +284,14 @@
                         Details of Personal Pension
                     </td>
                     <td colspan="2" style="padding: 8px; border: 1px solid;">
-                        {{ $assetInfo->details_of_personal_pension }}
+                        {{ $assetInfo->details_of_personal_pension ?? '' }}
                     </td>
                     <td colspan="2"
                         style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); text-align: left;">
                         Other Debts & Contingent Liabilities
                     </td>
                     <td colspan="2" style="padding: 8px; border: 1px solid;">
-                        {{ $liabilitiesInfo->other_debt_and_contingent_liabilities }}
+                        {{ $liabilitiesInfo->other_debt_and_contingent_liabilities ?? '' }}
                     </td>
                 </tr>
                 <tr>
@@ -251,14 +300,14 @@
                         Any other assets (please specify)
                     </td>
                     <td colspan="2" style="padding: 8px; border: 1px solid;">
-                        {{ $assetInfo->other_assets }}
+                        {{ $assetInfo->other_assets ?? '' }}
                     </td>
                     <td colspan="2"
                         style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); text-align: left;">
                         Any other liabilities (please specify) recurring or otherwise
                     </td>
                     <td colspan="2" style="padding: 8px; border: 1px solid;">
-                        {{ $liabilitiesInfo->other_liabilities }}
+                        {{ $liabilitiesInfo->other_liabilities ?? '' }}
                     </td>
                 </tr>
                 <tr>
@@ -266,15 +315,17 @@
                         style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); text-align: left;">
                         Total (£)
                     </th>
-                    <td colspan="2" style="padding: 8px; border: 1px solid;">
-                        N/A
+                    <td colspan="2"
+                        style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); text-align: left;">
+                        <?= number_format($totalSumAssetsVal, 2, '.', ''); ?>
                     </td>
                     <th colspan="2"
                         style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); text-align: left;">
                         Total (£)
                     </th>
-                    <td colspan="2" style="padding: 8px; border: 1px solid;">
-                        N/A
+                    <td colspan="2"
+                        style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); text-align: left;">
+                        <?= number_format($totalSumLiabilities, 2, '.', ''); ?>
                     </td>
                 </tr>
             </tbody>
@@ -323,6 +374,48 @@
                     </td>
                 </tr>
                 <?php }  ?>
+                <tr>
+                    <th
+                        style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); text-align: left;">
+                        Total(£)
+                    </th>
+                    <td
+                        style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); text-align: left;">
+                        <?php
+                            $totalEstimatedValue = array_sum(array_map(function($asset) {
+                                return is_numeric($asset['estimated_value']) ? $asset['estimated_value'] : 0;
+                            }, $otherAssets->toArray()));
+                            echo number_format($totalEstimatedValue, 2, '.', '');
+                        ?>
+                    </td>
+                    <td
+                        style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); text-align: left;">
+                        <?php
+                            $totalDebt = array_sum(array_map(function($asset) {
+                                return is_numeric($asset['debt']) ? $asset['debt'] : 0;
+                            }, $otherAssets->toArray()));
+                            echo number_format($totalDebt, 2, '.', '');
+                        ?>
+                    </td>
+                    <td
+                        style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); text-align: left;">
+                        <?php
+                            $totalFinancingCosts = array_sum(array_map(function($asset) {
+                                return is_numeric($asset['financing_costs']) ? $asset['financing_costs'] : 0;
+                            }, $otherAssets->toArray()));
+                            echo number_format($totalFinancingCosts, 2, '.', '');
+                        ?>
+                    </td>
+                    <td
+                        style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); text-align: left;">
+                        <?php
+                            $totalIncome = array_sum(array_map(function($asset) {
+                                return is_numeric($asset['income']) ? $asset['income'] : 0;
+                            }, $otherAssets->toArray()));
+                            echo number_format($totalIncome, 2, '.', '');
+                        ?>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -387,15 +480,13 @@
                 <?php foreach ($householdIncome as $asset) { ?>
                 <tr>
                     <td colspan="1" style="padding: 8px; border: 1px solid;">
+                        <?= $asset['type_and_source']; ?>
+                    </td>
+                    <td colspan="1" style="padding: 8px; border: 1px solid;">
                         <?= $asset['who_in_household']; ?>
                     </td>
                     <td colspan="1" style="padding: 8px; border: 1px solid;">
-                        <?= $asset['type_and_source']; ?>
-
-                    </td>
-                    <td colspan="1" style="padding: 8px; border: 1px solid;">
                         <?= $asset['gross_annual_income']; ?>
-
                     </td>
                 </tr>
                 <?php }  ?>
@@ -441,7 +532,7 @@
                         <?= $asset['registered']; ?>
                     </td>
                     <td colspan="1" style="padding: 8px; border: 1px solid;">
-                        <?= $asset['shareholding_percentage']; ?>
+                        <?= $asset['shareholding']; ?>
                     </td>
 
                 </tr>
@@ -509,7 +600,7 @@
                     Guarantor signature</td>
                 <td style="border: 1px solid;">
                     <?php if (!empty($directorInfo->signature)) { ?>
-                        <img src="signatures/<?= $directorInfo->signature ?>" alt="Signature" style="width:60px;" />
+                    <img src="signatures/<?= $directorInfo->signature ?>" alt="Signature" style="width:60px;" />
                     <?php } ?>
 
                 </td>
@@ -518,7 +609,7 @@
                 <td style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 110px;">Print
                     Full Name</td>
                 <td style="padding: 8px; border: 1px solid;">
-                    <?= $directorInfo->name; ?>
+                    <?= $directorInfo->name ?? ''; ?>
                 </td>
 
                 <td style="padding: 8px; border: 1px solid; background-color: rgb(217, 226, 243); width: 110px;">Date

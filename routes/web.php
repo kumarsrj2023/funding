@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BusinessController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,9 +33,29 @@ Route::group(['middleware' => ['user']], function() {
     Route::get('/businesses/director-info-ajax/{id}', ['as' => 'businesses.director.info.ajax', 'uses' => 'BusinessController@directorInfoDataforSOP']);
     Route::post('/businesses/send-sop', ['as' => 'send.sop', 'uses' => 'BusinessController@sendSOP']);
     Route::any('statement-of-position/{id}', ['as' => 'sop.form', 'uses' => 'BusinessController@sopForm'])->withoutMiddleware('user');
+    Route::any('statement-of-position/download-sop/{id}', ['as' => 'download.sop', 'uses' => 'BusinessController@downloadSOPPdf'])->withoutMiddleware('user');
     Route::any('migrate-db-files', ['as' => 'migratefiles', 'uses' => 'BusinessController@migratefile']);
-    Route::get('/businesses/price-model/{id}', ['as' => 'sop.price.model', 'uses' => 'BusinessController@priceModel']);
-    Route::get('/businesses/committee-paper/{id}', ['as' => 'businesses.committeepaper', 'uses' => 'BusinessController@committeePaper']);
+    Route::any('/businesses/price-model/{id}', ['as' => 'sop.price.model', 'uses' => 'BusinessController@priceModel']);
+    Route::any('/businesses/committee-paper/{id}', ['as' => 'businesses.committeepaper', 'uses' => 'BusinessController@committeePaper']);
+    Route::match(['get', 'post'], '/businesses/{id}/loan-data', [BusinessController::class, 'getLoanData'])->name('businesses.loanData');
+    Route::any('/businesses/commitee-paper/save/{id}', [BusinessController::class, 'saveCommitteePaperData'])->name('businesses.saveCommitteePaperData');
+    Route::any('/businesses/download-commitee-paper/{id}/{loanId}', [BusinessController::class, 'commiteePaperDoc'])->name('businesses.commiteePaperDoc');
+    Route::any('/businesses/funding-checklist/{id}', ['as' => 'businesses.fundingChecklist', 'uses' => 'BusinessController@fundingChecklist']);
+    Route::any('/businesses/save-funding-checklist/{id}', ['as' => 'businesses.save.funding.checklist', 'uses' => 'BusinessController@saveFundingChecklist']);
+    Route::any('/businesses/download-funding-checklist/{id}', ['as' => 'businesses.download.funding.checklist', 'uses' => 'BusinessController@downloadFundingChecklist']);
+
+    Route::any('/businesses/sif-funding-checklist/{id}', ['as' => 'businesses.siffundingChecklist', 'uses' => 'BusinessController@sifFundingChecklist']);
+    Route::any('/businesses/save-sif-funding-checklist/{id}', ['as' => 'businesses.save.siffunding.checklist', 'uses' => 'BusinessController@saveSifFundingChecklist']);
+    Route::any('/businesses/download-sif-funding-checklist/{id}', ['as' => 'businesses.download.siffunding.checklist', 'uses' => 'BusinessController@downloadSifFundingChecklist']);
+
+    Route::any('/businesses/aip/{id}', ['as' => 'businesses.aip', 'uses' => 'BusinessController@aip']);
+    Route::any('/businesses/download-aip/{id}', ['as' => 'download.aip', 'uses' => 'BusinessController@downloadAIP']);
+
+    Route::any('/deal-pipeline/bca', ['as' => 'bca.pipeline', 'uses' => 'PipelineController@bcaPipeline']);
+    Route::any('/deal-pipeline/sif', ['as' => 'sif.pipeline', 'uses' => 'PipelineController@sifPipeline']);
+
+
+
 
     Route::any('/businesses/loan-info/add/{business_id}/{id?}', ['as' => 'businesses.loan.info.add', 'uses' => 'BusinessController@loanInfoAdd']);
     Route::post('/businesses/loan-info/remove', ['as' => 'businesses.loan.info.remove', 'uses' => 'BusinessController@loanInfoRemove']);
